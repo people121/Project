@@ -3,7 +3,7 @@
 <title>Static Call Graph - [Smart_Access_Control\Smart_Access_Control.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image Smart_Access_Control\Smart_Access_Control.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060528: Last Updated: Fri Jul 31 13:36:56 2026
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060528: Last Updated: Fri Jul 31 18:58:41 2026
 <BR><P>
 <H3>Maximum Stack Usage =        472 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -1620,6 +1620,7 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SetBitMask
 </UL>
 <BR>[Called By]<UL><LI><a href="#[106]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RC522_Reset
+<LI><a href="#[45]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartRC522Task
 </UL>
 
 <P><STRONG><a name="[104]"></a>RC522_Halt</STRONG> (Thumb, 50 bytes, Stack size 32 bytes, rc522.o(i.RC522_Halt))
@@ -1634,11 +1635,11 @@ Global Symbols
 <P><STRONG><a name="[105]"></a>RC522_Init</STRONG> (Thumb, 138 bytes, Stack size 32 bytes, rc522.o(i.RC522_Init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 88<LI>Call Chain = RC522_Init &rArr; RC522_Reset &rArr; RC522_AntennaOn &rArr; SetBitMask &rArr; Write_RC522 &rArr; MySPI_SwapByte
 </UL>
-<BR>[Calls]<UL><LI><a href="#[7b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_WritePin
+<BR>[Calls]<UL><LI><a href="#[106]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RC522_Reset
+<LI><a href="#[7b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_WritePin
 <LI><a href="#[ac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_Init
 <LI><a href="#[70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
 <LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Write_RC522
-<LI><a href="#[106]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RC522_Reset
 </UL>
 <BR>[Called By]<UL><LI><a href="#[55]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
@@ -1660,11 +1661,12 @@ Global Symbols
 <P><STRONG><a name="[106]"></a>RC522_Reset</STRONG> (Thumb, 76 bytes, Stack size 8 bytes, rc522.o(i.RC522_Reset))
 <BR><BR>[Stack]<UL><LI>Max Depth = 56<LI>Call Chain = RC522_Reset &rArr; RC522_AntennaOn &rArr; SetBitMask &rArr; Write_RC522 &rArr; MySPI_SwapByte
 </UL>
-<BR>[Calls]<UL><LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Write_RC522
+<BR>[Calls]<UL><LI><a href="#[101]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RC522_AntennaOn
+<LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Write_RC522
 <LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Read_RC522
-<LI><a href="#[101]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RC522_AntennaOn
 </UL>
-<BR>[Called By]<UL><LI><a href="#[105]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RC522_Init
+<BR>[Called By]<UL><LI><a href="#[45]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartRC522Task
+<LI><a href="#[105]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RC522_Init
 </UL>
 
 <P><STRONG><a name="[82]"></a>Read_RC522</STRONG> (Thumb, 42 bytes, Stack size 8 bytes, rc522.o(i.Read_RC522))
@@ -1673,8 +1675,8 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[f2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MySPI_W_SS
 <LI><a href="#[ef]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MySPI_SwapByte
 </UL>
-<BR>[Called By]<UL><LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SetBitMask
-<LI><a href="#[106]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RC522_Reset
+<BR>[Called By]<UL><LI><a href="#[106]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RC522_Reset
+<LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SetBitMask
 <LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ClearBitMask
 <LI><a href="#[103]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RC522_ToCard
 <LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CalulateCRC
@@ -1693,6 +1695,7 @@ Global Symbols
 <LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Add_ID_Card
 </UL>
 <BR>[Called By]<UL><LI><a href="#[10e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Uid_Read
+<LI><a href="#[107]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Regular_User
 <LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;User_Change_Password_operation
 <LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Dele_ID_Card
 <LI><a href="#[78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Admin_Change_Password_operation
@@ -1701,7 +1704,7 @@ Global Symbols
 <LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ADD_Admin_ID
 </UL>
 
-<P><STRONG><a name="[107]"></a>Regular_User</STRONG> (Thumb, 248 bytes, Stack size 16 bytes, adminoperation.o(i.Regular_User))
+<P><STRONG><a name="[107]"></a>Regular_User</STRONG> (Thumb, 280 bytes, Stack size 16 bytes, adminoperation.o(i.Regular_User))
 <BR><BR>[Stack]<UL><LI>Max Depth = 296 + In Cycle
 <LI>Call Chain = Regular_User &rArr;  Regular_User (Cycle)
 </UL>
@@ -1712,6 +1715,7 @@ Global Symbols
 <LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Flash_Read
 <LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Button_GetKey
 <LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Regular_User_Menu
+<LI><a href="#[71]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Regular_Admin
 <LI><a href="#[90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Open_Door_Error
 <LI><a href="#[91]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Open_Door_Correct
 </UL>
@@ -1771,15 +1775,17 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> freertos.o(.constdata)
 </UL>
-<P><STRONG><a name="[45]"></a>StartRC522Task</STRONG> (Thumb, 24 bytes, Stack size 0 bytes, freertos.o(i.StartRC522Task))
+<P><STRONG><a name="[45]"></a>StartRC522Task</STRONG> (Thumb, 32 bytes, Stack size 0 bytes, freertos.o(i.StartRC522Task))
 <BR><BR>[Stack]<UL><LI>Max Depth = 472 + Unknown Stack Size
  + In Cycle
 <LI>Call Chain = StartRC522Task &rArr;  StartRC522Task (Cycle)
 </UL>
 <BR>[Calls]<UL><LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;osDelay
 <LI><a href="#[10e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Uid_Read
+<LI><a href="#[106]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RC522_Reset
 <LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RC522_ReadCardID
 <LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RC522_Halt
+<LI><a href="#[101]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RC522_AntennaOn
 <LI><a href="#[45]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartRC522Task
 </UL>
 <BR>[Called By]<UL><LI><a href="#[45]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartRC522Task
@@ -1926,10 +1932,10 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[f2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MySPI_W_SS
 <LI><a href="#[ef]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MySPI_SwapByte
 </UL>
-<BR>[Called By]<UL><LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RC522_ReadCardID
+<BR>[Called By]<UL><LI><a href="#[106]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RC522_Reset
+<LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RC522_ReadCardID
 <LI><a href="#[105]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RC522_Init
 <LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SetBitMask
-<LI><a href="#[106]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RC522_Reset
 <LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ClearBitMask
 <LI><a href="#[103]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RC522_ToCard
 <LI><a href="#[102]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RC522_Anticoll

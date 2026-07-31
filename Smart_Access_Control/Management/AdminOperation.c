@@ -181,7 +181,7 @@ void Regular_User(void)
                 Open_Door_Correct();                        //模拟开门操作
                 OLED_Clear();
                 input_pwd == 0; // 重置输入密码
-            }else if(pwd_admin == input_pwd && sizeof(input_pwd) == 6){
+            }else if(pwd_admin == input_pwd){
                 OLED_Clear();
                 OLED_PrintString(3, 2, "Admin Door Opened");
                 HAL_Delay(500);                             // 显示开门成功信息2秒

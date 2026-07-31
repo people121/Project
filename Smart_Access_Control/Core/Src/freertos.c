@@ -204,6 +204,9 @@ void StartUserTask(void const * argument)
 void StartRC522Task(void const * argument)
 {
     for(;;){
+		// 每次循环复位 RC522，确保干净状态
+        RC522_Reset();
+        RC522_AntennaOn();
         if(RC522_ReadCardID(user_uid) == MI_OK){
             Uid_Read();                    // 处理刷卡
             RC522_Halt();                  // 让卡片休眠，避免重复读取

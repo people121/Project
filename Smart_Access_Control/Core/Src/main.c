@@ -145,7 +145,7 @@ int main(void)
   uint32_t user_ID = 0xBAD3411D;                                      // 用户卡片ID
   uint32_t Administrator_ID = 0xC7F57B33;                             // 管理员卡片ID
   uint32_t user_pwd = 123456;                                         // 用户密码
-  uint32_t admin_pwd = 0;                                             // 管理员密码
+  uint32_t admin_pwd =111111;                                        // 管理员密码
   uint32_t init_flag = Flash_Read(USER_FLASH_ADDR_INIT_FLAG);         // 读取初始化标志
   
   if(init_flag != 0x5A5A5A5A) {                                       // 如果未初始化，则写入默认数据
