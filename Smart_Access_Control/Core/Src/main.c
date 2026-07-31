@@ -18,6 +18,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "cmsis_os.h"
 #include "dma.h"
 #include "i2c.h"
 #include "spi.h"
@@ -74,6 +75,7 @@
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
+void MX_FREERTOS_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -122,10 +124,7 @@ int main(void)
   OLED_Clear();
   RC522_Init();
   Button_Init();
-  /* USER CODE END 2 */
-
-  /* Infinite loop */
-  /* USER CODE BEGIN WHILE */
+  
   OLED_PrintString(2, 0, "ESP Init...");
 	HAL_Delay(500);
 
@@ -136,50 +135,54 @@ int main(void)
 		OLED_PrintString(2, 2, "ESP Fail!");
 	}
 	HAL_Delay(1000);
-	OLED_Clear();
-  uint32_t user_ID = 0xBAD3411D;                //用户卡片ID
-  uint32_t Administrator_ID = 0xC7F57B33;       //管理员卡片ID
-  uint32_t user_pwd  = 123456;                  //密码
-  uint32_t admin_pwd = 000000;                  //管理员密码
-  uint32_t init_flag = Flash_Read(USER_FLASH_ADDR_INIT_FLAG);
+  
 
-	// 如果标志位不是预设值，说明是第一次运行，需要写入初始数据
-	if(init_flag != 0x5A5A5A5A) {
-		// 擦除所有使用的扇区
-		Flash_Erase(USER_FLASH_ADDR_PWD);           // 扇区30 - 用户密码
-		Flash_Erase(USER_FLASH_ADDR_RFID);          // 扇区31 - 用户卡
-		Flash_Erase(USER_FLASH_ADDR_ADMIN_RFID);    // 扇区32 - 管理员卡
-		Flash_Erase(USER_FLASH_ADDR_ADMIN_PWD);     // 扇区36 - 管理员密码
-		Flash_Erase(USER_FLASH_ADDR_INIT_FLAG);     // 扇区37 - 初始化标志
-		
-		// 写入初始数据
-		Flash_Write(USER_FLASH_ADDR_PWD, user_pwd);
-		Flash_Write(USER_FLASH_ADDR_RFID, user_ID);
-		Flash_Write(USER_FLASH_ADDR_ADMIN_RFID, Administrator_ID);
-		Flash_Write(USER_FLASH_ADDR_ADMIN_PWD, admin_pwd);
-		Flash_Write(USER_FLASH_ADDR_INIT_FLAG, 0x5A5A5A5A);
-		
-		// 初始化卡数量
-		Flash_Write(USER_FLASH_ADDR_USER_CARD_COUNT, 1);
-		Flash_Write(USER_FLASH_ADDR_ADMIN_CARD_COUNT, 1);
-	}
-  Regular_User();
+  /* 启动PWM（舵机） */
+  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);                           // 启动PWM输出
+  TIM1->BDTR |= TIM_BDTR_MOE;                                         // 主输出使能
+  
+  /* Flash初始化（第一次运行写入默认数据） */
+  uint32_t user_ID = 0xBAD3411D;                                      // 用户卡片ID
+  uint32_t Administrator_ID = 0xC7F57B33;                             // 管理员卡片ID
+  uint32_t user_pwd = 123456;                                         // 用户密码
+  uint32_t admin_pwd = 0;                                             // 管理员密码
+  uint32_t init_flag = Flash_Read(USER_FLASH_ADDR_INIT_FLAG);         // 读取初始化标志
+  
+  if(init_flag != 0x5A5A5A5A) {                                       // 如果未初始化，则写入默认数据
+      Flash_Erase(USER_FLASH_ADDR_PWD);                               // 擦除用户密码存储区域
+      Flash_Erase(USER_FLASH_ADDR_RFID);      
+      Flash_Erase(USER_FLASH_ADDR_ADMIN_RFID);
+      Flash_Erase(USER_FLASH_ADDR_ADMIN_PWD);
+      Flash_Erase(USER_FLASH_ADDR_INIT_FLAG);
+      
+      Flash_Write(USER_FLASH_ADDR_PWD, user_pwd);                     // 写入用户密码
+      Flash_Write(USER_FLASH_ADDR_RFID, user_ID);                     // 写入用户卡片ID
+      Flash_Write(USER_FLASH_ADDR_ADMIN_RFID, Administrator_ID);      // 写入管理员卡片ID
+      Flash_Write(USER_FLASH_ADDR_ADMIN_PWD, admin_pwd);              // 写入管理员密码
+      Flash_Write(USER_FLASH_ADDR_INIT_FLAG, 0x5A5A5A5A);             // 写入初始化标志
+      
+      Flash_Write(USER_FLASH_ADDR_USER_CARD_COUNT, 1);                // 写入用户卡数量为1      
+      Flash_Write(USER_FLASH_ADDR_ADMIN_CARD_COUNT, 1);               // 写入管理员卡数量为1
+  }
+  /* USER CODE END 2 */
+
+  /* Call init function for freertos objects (in cmsis_os2.c) */
+  MX_FREERTOS_Init();
+
+  /* Start scheduler */
+  osKernelStart();
+
+  /* We should never get here as control is now taken by the scheduler */
+
+  /* Infinite loop */
+  /* USER CODE BEGIN WHILE */
   while (1)
   {
-	// 处理ESP接收到的数据（放在后台运行）
-    ESP_Process();
-    
-    // 每30秒发送心跳包
-    static uint32_t last_heartbeat = 0;
-    if(HAL_GetTick() - last_heartbeat > 30000) {
-        ESP_SendHeartbeat();
-        last_heartbeat = HAL_GetTick();
-    }
-    
-    HAL_Delay(10);
+
     /* USER CODE END WHILE */
-	}
+	
     /* USER CODE BEGIN 3 */
+  }
   /* USER CODE END 3 */
 }
 

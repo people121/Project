@@ -17,4 +17,10 @@ version: "2.1"
 options:
     Smart_Access_Control:
         files: {}
-        virtualPathFiles: {}
+        virtualPathFiles:
+            <virtual_root>/Application/User/Core/dma.c: ""
+            <virtual_root>/Application/User/Core/spi.c: ""
+            <virtual_root>/Application/User/Core/tim.c: ""
+            <virtual_root>/Drivers/STM32F1xx_HAL_Driver/stm32f1xx_hal_spi.c: ""
+            <virtual_root>/Drivers/STM32F1xx_HAL_Driver/stm32f1xx_hal_tim.c: ""
+            <virtual_root>/Drivers/STM32F1xx_HAL_Driver/stm32f1xx_hal_tim_ex.c: ""

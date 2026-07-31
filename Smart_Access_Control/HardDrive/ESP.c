@@ -17,7 +17,7 @@ extern uint16_t ESP_GetReceivedData(uint8_t* buf, uint16_t max_len);
 /* 巴法云平台配置信息 */
 char uid[]   = "997fb7889ff742939fe5860e41a201d1";
 char topic[] = "led001";
-char ssid[]  = "ACE";
+char ssid[]  = "A";
 char pswd[]  = "cr7204612";
 
 /* 接收缓冲区（用于检查AT指令返回）*/

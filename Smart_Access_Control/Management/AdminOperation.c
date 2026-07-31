@@ -5,6 +5,7 @@
 #include "FLASH.h"
 #include "RC522.h"
 #include "DoorOpenPro.h"
+#include "cmsis_os.h"
 
 #define USER_FLASH_ADDR_PWD              0x08007800          // 扇区30起始地址（30KB位置）用于存储用户密码                  (密码)
 #define USER_FLASH_ADDR_RFID             0x08007C00          // 扇区31起始地址（28KB位置）用于存储用户卡片ID                (用户ID)
@@ -150,14 +151,7 @@ void Regular_User(void)
 
     while (1)
     {
-		// 处理ESP接收到的数据（开门指令）
-        ESP_Process();
-		
         char key = Button_GetKey();                 // 获取键盘输入    
-        if(RC522_ReadCardID(user_uid) == MI_OK){    // 如果检测到卡片，读取卡片ID
-            Uid_Read();                             
-        }
-
         // 如果检测到0-9的按键,并且输入的密码长度小于6，则将按键值存储到password数组中，并显示在OLED上
         if ((key >= '0' && key <= '9')&&(count < 6)){
             // 存储密码
@@ -175,6 +169,9 @@ void Regular_User(void)
             for(int i = 0; i < count; i++) {
                 input_pwd = input_pwd * 10 + (password[i] - '0');
             }
+            if(count == 0){
+                continue;; // 如果没有输入密码，继续等待输入
+            }
             uint32_t pwd_admin= Flash_Read(USER_FLASH_ADDR_ADMIN_PWD); // 从Flash读取存储的管理员密码进行验证
 			uint32_t pwd_user= Flash_Read(USER_FLASH_ADDR_PWD); // 从Flash读取存储的用户密码进行验证
             if(pwd_user == input_pwd){
@@ -183,18 +180,21 @@ void Regular_User(void)
                 HAL_Delay(500);                             // 显示开门成功信息2秒
                 Open_Door_Correct();                        //模拟开门操作
                 OLED_Clear();
-            }else if(pwd_admin == input_pwd){
+                input_pwd == 0; // 重置输入密码
+            }else if(pwd_admin == input_pwd && sizeof(input_pwd) == 6){
                 OLED_Clear();
                 OLED_PrintString(3, 2, "Admin Door Opened");
                 HAL_Delay(500);                             // 显示开门成功信息2秒
                 Regular_Admin();                            //进入管理员界面
                 OLED_Clear();
+                input_pwd == 0; // 重置输入密码
             }else{
                 OLED_Clear();
                 OLED_PrintString(3, 2, "Password Error");   
                 HAL_Delay(500); // 显示密码错误信息2秒
                 Open_Door_Error();                          //模拟关门操作
                 OLED_Clear();
+                input_pwd == 0; // 重置输入密码
             }
         }else if (key == KEY_ESC){
 			Regular_User();
@@ -296,6 +296,13 @@ void Change_Password(void)
         }
     }
 }
+/*
+ *  函数名：User_Change_Password_operation
+ *  功能描述： 用户修改密码操作
+ *  输入参数： 无
+ *  输出参数：无
+ *  返回值：无
+ */
 void User_Change_Password_operation(void)
 {
     char count[3] = {0, 0, 0};
@@ -393,7 +400,13 @@ void User_Change_Password_operation(void)
         }
     }
 }
-
+/*
+ *  函数名：Admin_Change_Password_operation
+ *  功能描述： 管理员修改密码操作
+ *  输入参数： 无
+ *  输出参数：无
+ *  返回值：无
+ */
 void Admin_Change_Password_operation(void)
 {
     char count[3] = {0, 0, 0};

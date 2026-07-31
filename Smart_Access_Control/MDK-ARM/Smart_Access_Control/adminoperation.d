@@ -37,3 +37,17 @@ smart_access_control\adminoperation.o: ../SoftDrive/RC522.h
 smart_access_control\adminoperation.o: ../SoftDrive/MySPI.h
 smart_access_control\adminoperation.o: ../SoftDrive/RC522_Ins.h
 smart_access_control\adminoperation.o: ../HardDrive/DoorOpenPro.h
+smart_access_control\adminoperation.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
+smart_access_control\adminoperation.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
+smart_access_control\adminoperation.o: ../Core/Inc/FreeRTOSConfig.h
+smart_access_control\adminoperation.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h
+smart_access_control\adminoperation.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h
+smart_access_control\adminoperation.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h
+smart_access_control\adminoperation.o: ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM3/portmacro.h
+smart_access_control\adminoperation.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h
+smart_access_control\adminoperation.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h
+smart_access_control\adminoperation.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h
+smart_access_control\adminoperation.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h
+smart_access_control\adminoperation.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h
+smart_access_control\adminoperation.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h
+smart_access_control\adminoperation.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h

@@ -22,8 +22,10 @@ virtualFolder:
               files:
                 - path: ../Core/Src/main.c
                 - path: ../Core/Src/gpio.c
-                - path: ../Core/Src/freertos.c
+                - path: ../Core/Src/dma.c
                 - path: ../Core/Src/i2c.c
+                - path: ../Core/Src/spi.c
+                - path: ../Core/Src/tim.c
                 - path: ../Core/Src/usart.c
                 - path: ../Core/Src/stm32f1xx_it.c
                 - path: ../Core/Src/stm32f1xx_hal_msp.c
@@ -34,6 +36,7 @@ virtualFolder:
         - name: STM32F1xx_HAL_Driver
           files:
             - path: ../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio_ex.c
+            - path: ../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_i2c.c
             - path: ../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c
             - path: ../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc.c
             - path: ../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc_ex.c
@@ -44,37 +47,43 @@ virtualFolder:
             - path: ../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_flash.c
             - path: ../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_flash_ex.c
             - path: ../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_exti.c
-            - path: ../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_i2c.c
+            - path: ../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_spi.c
+            - path: ../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim.c
+            - path: ../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim_ex.c
             - path: ../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_uart.c
           folders: []
         - name: CMSIS
           files:
             - path: ../Core/Src/system_stm32f1xx.c
           folders: []
-    - name: Middlewares
-      files: []
-      folders:
-        - name: FreeRTOS
-          files:
-            - path: ../Middlewares/Third_Party/FreeRTOS/Source/croutine.c
-            - path: ../Middlewares/Third_Party/FreeRTOS/Source/event_groups.c
-            - path: ../Middlewares/Third_Party/FreeRTOS/Source/list.c
-            - path: ../Middlewares/Third_Party/FreeRTOS/Source/queue.c
-            - path: ../Middlewares/Third_Party/FreeRTOS/Source/stream_buffer.c
-            - path: ../Middlewares/Third_Party/FreeRTOS/Source/tasks.c
-            - path: ../Middlewares/Third_Party/FreeRTOS/Source/timers.c
-            - path: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.c
-            - path: ../Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/heap_4.c
-            - path: ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM3/port.c
-          folders: []
-    - name: Object
+    - name: HardDrive
       files:
-        - path: ../Object/Button.c
-        - path: ../Object/Button.h
-        - path: ../Object/driver_oled.c
-        - path: ../Object/driver_oled.h
-        - path: ../Object/ESP.c
-        - path: ../Object/ESP.h
+        - path: ../HardDrive/Button.c
+        - path: ../HardDrive/Button.h
+        - path: ../HardDrive/DoorOpenPro.c
+        - path: ../HardDrive/DoorOpenPro.h
+        - path: ../HardDrive/driver_oled.c
+        - path: ../HardDrive/driver_oled.h
+        - path: ../HardDrive/ESP.c
+        - path: ../HardDrive/ESP.h
+      folders: []
+    - name: SoftDrive
+      files:
+        - path: ../SoftDrive/MySPI.c
+        - path: ../SoftDrive/MySPI.h
+        - path: ../SoftDrive/RC522.c
+        - path: ../SoftDrive/RC522.h
+        - path: ../SoftDrive/RC522_Ins.h
+      folders: []
+    - name: Data
+      files:
+        - path: ../Data/FLASH.c
+        - path: ../Data/FLASH.h
+      folders: []
+    - name: Management
+      files:
+        - path: ../Management/AdminOperation.c
+        - path: ../Management/AdminOperation.h
       folders: []
     - name: ::CMSIS
       files: []
@@ -93,12 +102,12 @@ targets:
         - ../Core/Inc
         - ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy
         - ../Drivers/STM32F1xx_HAL_Driver/Inc
-        - ../Middlewares/Third_Party/FreeRTOS/Source/include
-        - ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2
-        - ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM3
         - ../Drivers/CMSIS/Device/ST/STM32F1xx/Include
         - ../Drivers/CMSIS/Include
-        - ../Object
+        - ../HardDrive
+        - ../SoftDrive
+        - ../Data
+        - ../Management
         - .cmsis/include
         - RTE/_Smart_Access_Control
       libList: []
