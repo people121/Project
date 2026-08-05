@@ -43,7 +43,7 @@ void Open_Door_Correct(void)
     greenLED_open();            //开启绿灯
     buzzer_open();              //开启蜂鸣器
     open_door();                //开门
-    HAL_Delay(500);             //等待1秒钟
+    osDelay(500);             //等待1秒钟
     greenLED_close();           //关闭绿灯
     buzzer_close();             //关闭蜂鸣器
     close_door();               //关门
@@ -59,7 +59,7 @@ void Open_Door_Error(void)
 {
     redLED_open();              //开启红灯
     buzzer_open();              //开启蜂鸣器
-    HAL_Delay(500);            //等待1秒钟
+    osDelay(500);            //等待1秒钟
     redLED_close();              //关闭红灯
     buzzer_close();              //关闭蜂鸣器
 }
@@ -98,23 +98,24 @@ void Uid_Read(void)
                 OLED_Clear();
                 Open_Door_Correct();
                 OLED_PrintString(0, 4, "Card OK ");
-                HAL_Delay(1000);
+                osDelay(1000);
                 break;
             }
             /* 判断是否是管理员卡 */
             else if(read_Admin == current || read_Admin_New1 == current){
                 OLED_Clear();
                 Regular_Admin();
-                break;
+				break;
             }
             else{
                 OLED_Clear();
                 Open_Door_Error();
                 OLED_PrintString(0, 4, "Card error");
-                HAL_Delay(1000);
+                osDelay(1000);
                 break;
             }
         }
+		osDelay(5);
     }
 }
 /*
@@ -145,13 +146,13 @@ void Regular_User(void)
 
     OLED_Clear();
     Regular_User_Menu();                            // 调用显示普通用户界面函数
-    HAL_Delay(1000);                                // 等待1秒钟显示欢迎信息
+    osDelay(1000);                                // 等待1秒钟显示欢迎信息
     OLED_Clear();
     OLED_PrintString(0, 2, "Password:");
 
     while (1)
     {
-        char key = Button_GetKey();                 // 获取键盘输入    
+        char key = Button_GetKey();                 // 获取键盘输入 	
         // 如果检测到0-9的按键,并且输入的密码长度小于6，则将按键值存储到password数组中，并显示在OLED上
         if ((key >= '0' && key <= '9')&&(count < 6)){
             // 存储密码
@@ -161,7 +162,7 @@ void Regular_User(void)
             display_char[1] = '\0';
             OLED_PrintString(9 + count, 2, display_char);
             count++;
-            HAL_Delay(200); // 防止按键抖动
+            osDelay(200); // 防止按键抖动
         /*如果检测到按键时确认键*/
         }else if (key == KEY_Confirm){
             // 处理确认键，验证密码
@@ -177,21 +178,21 @@ void Regular_User(void)
             if(pwd_user == input_pwd){
                 OLED_Clear();
                 OLED_PrintString(3, 2, "Door Opened");
-                HAL_Delay(500);                             // 显示开门成功信息2秒
+                osDelay(500);                             // 显示开门成功信息2秒
                 Open_Door_Correct();                        //模拟开门操作
                 OLED_Clear();
                 input_pwd == 0; // 重置输入密码
             }else if(pwd_admin == input_pwd){
                 OLED_Clear();
                 OLED_PrintString(3, 2, "Admin Door Opened");
-                HAL_Delay(500);                             // 显示开门成功信息2秒
+                osDelay(500);                             // 显示开门成功信息2秒
                 Regular_Admin();                            //进入管理员界面
                 OLED_Clear();
                 input_pwd == 0; // 重置输入密码
             }else{
                 OLED_Clear();
                 OLED_PrintString(3, 2, "Password Error");   
-                HAL_Delay(500); // 显示密码错误信息2秒
+                osDelay(500); // 显示密码错误信息2秒
                 Open_Door_Error();                          //模拟关门操作
                 OLED_Clear();
                 input_pwd == 0; // 重置输入密码
@@ -206,7 +207,9 @@ void Regular_User(void)
                 OLED_PrintString(count + 9, 2, " "); // 清除对应位置的*
             }
         }
+		osDelay(10);
     }
+	osDelay(5);
 }
 /*
  *  函数名：Regular_Admin
@@ -251,8 +254,11 @@ void Regular_Admin(void)
                     break;
             }
         }else if (KEY_ESC == key){
-            Regular_User();                         //切换到普通用户
+                RC522_Reset();
+				RC522_AntennaOn();
+				return;
         }
+		osDelay(10);
     }
 }
 /*
@@ -267,7 +273,7 @@ void Change_Password(void)
     char ID_Select = 2;
     OLED_Clear();
     OLED_PrintString(0,3,"Change password");
-    HAL_Delay(1000);
+    osDelay(1000);
     OLED_Clear();
     while(1){
         OLED_PrintString(0,0,"Change password");
@@ -294,6 +300,7 @@ void Change_Password(void)
         }else if (KEY_ESC == key){
             break;
         }
+		osDelay(10);
     }
 }
 /*
@@ -339,7 +346,7 @@ void User_Change_Password_operation(void)
             if(count[current_line] < 6){
                 OLED_PrintString(8 + count[current_line], pos_y[current_line], "_");
             }
-            HAL_Delay(200);
+            osDelay(200);
         }
         else if (key == KEY_Rback){
             if (count[current_line] > 0){
@@ -347,20 +354,20 @@ void User_Change_Password_operation(void)
                 password[current_line][count[current_line]] = '\0';
                 OLED_PrintString(8 + count[current_line], pos_y[current_line], " ");
                 OLED_PrintString(8 + count[current_line], pos_y[current_line], "_");
-                HAL_Delay(200);
+                osDelay(200);
             }
         }
         else if (KEY_UP == key && current_line > 0){
             OLED_PrintString(8 + count[current_line], pos_y[current_line], " ");
             current_line--;
             OLED_PrintString(8 + count[current_line], pos_y[current_line], "_");
-            HAL_Delay(200);
+            osDelay(200);
         }
         else if (KEY_DOWN == key && current_line < 2){
             OLED_PrintString(8 + count[current_line], pos_y[current_line], " ");
             current_line++;
             OLED_PrintString(8 + count[current_line], pos_y[current_line], "_");
-            HAL_Delay(200);
+            osDelay(200);
         }
         else if (KEY_ESC == key){
             Regular_Admin();
@@ -385,15 +392,15 @@ void User_Change_Password_operation(void)
                 OLED_Clear();
                 OLED_PrintString(0, 3, "User Pwd Changed!");
                 Flash_Erase(USER_FLASH_ADDR_PWD);
-                HAL_Delay(10);
+                osDelay(10);
                 Flash_Write(USER_FLASH_ADDR_PWD, con_pwd_value);
-                HAL_Delay(1000);
+                osDelay(1000);
                 Regular_Admin();
                 return;
             } else {
                 OLED_Clear();
                 OLED_PrintString(0, 3, "Password Error!");
-                HAL_Delay(1000);
+                osDelay(1000);
                 Regular_Admin();
                 return;
             }
@@ -443,7 +450,7 @@ void Admin_Change_Password_operation(void)
             if(count[current_line] < 6){
                 OLED_PrintString(8 + count[current_line], pos_y[current_line], "_");
             }
-            HAL_Delay(200);
+            osDelay(200);
         }
         else if (key == KEY_Rback){
             if (count[current_line] > 0){
@@ -451,20 +458,20 @@ void Admin_Change_Password_operation(void)
                 password[current_line][count[current_line]] = '\0';
                 OLED_PrintString(8 + count[current_line], pos_y[current_line], " ");
                 OLED_PrintString(8 + count[current_line], pos_y[current_line], "_");
-                HAL_Delay(200);
+                osDelay(200);
             }
         }
         else if (KEY_UP == key && current_line > 0){
             OLED_PrintString(8 + count[current_line], pos_y[current_line], " ");
             current_line--;
             OLED_PrintString(8 + count[current_line], pos_y[current_line], "_");
-            HAL_Delay(200);
+            osDelay(200);
         }
         else if (KEY_DOWN == key && current_line < 2){
             OLED_PrintString(8 + count[current_line], pos_y[current_line], " ");
             current_line++;
             OLED_PrintString(8 + count[current_line], pos_y[current_line], "_");
-            HAL_Delay(200);
+            osDelay(200);
         }
         else if (KEY_ESC == key){
             Regular_Admin();
@@ -489,15 +496,15 @@ void Admin_Change_Password_operation(void)
                 OLED_Clear();
                 OLED_PrintString(0, 3, "Admin Pwd Changed!");
                 Flash_Erase(USER_FLASH_ADDR_ADMIN_PWD);
-                HAL_Delay(10);
+                osDelay(10);
                 Flash_Write(USER_FLASH_ADDR_ADMIN_PWD, con_pwd_value);
-                HAL_Delay(1000);
+                osDelay(1000);
                 Regular_Admin();
                 return;
             } else {
                 OLED_Clear();
                 OLED_PrintString(0, 3, "Password Error!");
-                HAL_Delay(1000);
+                osDelay(1000);
                 Regular_Admin();
                 return;
             }
@@ -517,7 +524,7 @@ void Add_ID_Card(void)
     char ID_Select = 2;
     OLED_Clear();
     OLED_PrintString(0,3,"Please swipe new card");
-    HAL_Delay(1000);
+    osDelay(1000);
     while (1){      
         if(RC522_ReadCardID(user_uid) == MI_OK){
         uint32_t current = (user_uid[0] << 24) | (user_uid[1] << 16) | (user_uid[2] << 8) | user_uid[3];
@@ -530,7 +537,7 @@ void Add_ID_Card(void)
 				current == read_User_ID_new2 || current == read_Admin_ID_new){
                 OLED_Clear();
                 OLED_PrintString(3,3,"ID Card Repeat");
-                HAL_Delay(1000);
+                osDelay(1000);
                 break;
             }else{
                 //将刷到的新卡片加入到Flash中
@@ -582,7 +589,7 @@ void ADD_User_ID(void)
     if (original_user == current) {
         OLED_Clear();
         OLED_PrintString(0, 3, "Card already exists!");
-        HAL_Delay(1000);
+        osDelay(1000);
         Regular_Admin();
         return;
     }
@@ -592,7 +599,7 @@ void ADD_User_ID(void)
     if (original_admin == current) {
         OLED_Clear();
         OLED_PrintString(0, 3, "Card already exists!");
-        HAL_Delay(1000);
+        osDelay(1000);
         Regular_Admin();
         return;
     }
@@ -602,7 +609,7 @@ void ADD_User_ID(void)
     if (card1 == current) {
         OLED_Clear();
         OLED_PrintString(0, 3, "Card already exists!");
-        HAL_Delay(1000);
+        osDelay(1000);
         Regular_Admin();
         return;
     }
@@ -612,7 +619,7 @@ void ADD_User_ID(void)
     if (card2 == current) {
         OLED_Clear();
         OLED_PrintString(0, 3, "Card already exists!");
-        HAL_Delay(1000);
+        osDelay(1000);
         Regular_Admin();
         return;
     }
@@ -622,7 +629,7 @@ void ADD_User_ID(void)
     if (admin_card1 == current) {
         OLED_Clear();
         OLED_PrintString(0, 3, "Card already exists!");
-        HAL_Delay(1000);
+        osDelay(1000);
         Regular_Admin();
         return;
     }
@@ -631,11 +638,11 @@ void ADD_User_ID(void)
     // 检查扇区33是否为空
     if (card1 == 0xFFFFFFFF) {
         Flash_Erase(USER_FLASH_ADDR_RFID_New1);
-        HAL_Delay(10);
+        osDelay(10);
         Flash_Write(USER_FLASH_ADDR_RFID_New1, current);
         OLED_Clear();
         OLED_PrintString(0, 3, "User Card1 Added!");
-        HAL_Delay(1000);
+        osDelay(1000);
         Regular_Admin();
         return;
     }
@@ -643,11 +650,11 @@ void ADD_User_ID(void)
     // 检查扇区34是否为空
     if (card2 == 0xFFFFFFFF) {
         Flash_Erase(USER_FLASH_ADDR_RFID_New2);
-        HAL_Delay(10);
+        osDelay(10);
         Flash_Write(USER_FLASH_ADDR_RFID_New2, current);
         OLED_Clear();
         OLED_PrintString(0, 3, "User Card2 Added!");
-        HAL_Delay(1000);
+        osDelay(1000);
         Regular_Admin();
         return;
     }
@@ -655,7 +662,7 @@ void ADD_User_ID(void)
     // 所有卡槽都已满
     OLED_Clear();
     OLED_PrintString(0, 3, "User Card Full!");
-    HAL_Delay(1000);
+    osDelay(1000);
     Regular_Admin();
 }
 
@@ -675,7 +682,7 @@ void ADD_Admin_ID(void)
     if (original_user == current) {
         OLED_Clear();
         OLED_PrintString(0, 3, "Card already exists!");
-        HAL_Delay(1000);
+        osDelay(1000);
         Regular_Admin();
         return;
     }
@@ -685,7 +692,7 @@ void ADD_Admin_ID(void)
     if (original_admin == current) {
         OLED_Clear();
         OLED_PrintString(0, 3, "Card already exists!");
-        HAL_Delay(1000);
+        osDelay(1000);
         Regular_Admin();
         return;
     }
@@ -695,7 +702,7 @@ void ADD_Admin_ID(void)
     if (user_card1 == current) {
         OLED_Clear();
         OLED_PrintString(0, 3, "Card already exists!");
-        HAL_Delay(1000);
+        osDelay(1000);
         Regular_Admin();
         return;
     }
@@ -705,7 +712,7 @@ void ADD_Admin_ID(void)
     if (user_card2 == current) {
         OLED_Clear();
         OLED_PrintString(0, 3, "Card already exists!");
-        HAL_Delay(1000);
+        osDelay(1000);
         Regular_Admin();
         return;
     }
@@ -715,7 +722,7 @@ void ADD_Admin_ID(void)
     if (admin_card1 == current) {
         OLED_Clear();
         OLED_PrintString(0, 3, "Card already exists!");
-        HAL_Delay(1000);
+        osDelay(1000);
         Regular_Admin();
         return;
     }
@@ -724,11 +731,11 @@ void ADD_Admin_ID(void)
     // 检查扇区35是否为空
     if (admin_card1 == 0xFFFFFFFF) {
         Flash_Erase(USER_FLASH_ADDR_ADMIN_RFID_New1);
-        HAL_Delay(10);
+        osDelay(10);
         Flash_Write(USER_FLASH_ADDR_ADMIN_RFID_New1, current);
         OLED_Clear();
         OLED_PrintString(0, 3, "Admin Card Added!");
-        HAL_Delay(1000);
+        osDelay(1000);
         Regular_Admin();
         return;
     }
@@ -736,7 +743,7 @@ void ADD_Admin_ID(void)
     // 所有卡槽都已满
     OLED_Clear();
     OLED_PrintString(0, 3, "Admin Card Full!");
-    HAL_Delay(1000);
+    osDelay(1000);
     Regular_Admin();
 }
 
@@ -813,7 +820,7 @@ void Dele_ID_Card(void)
     if (card_count == 0) {
         OLED_Clear();
         OLED_PrintString(2, 3, "No Card Found!");
-        HAL_Delay(1000);
+        osDelay(1000);
         Regular_Admin();
         return;
     }
@@ -879,7 +886,7 @@ void Dele_ID_Card(void)
                 }
                 need_refresh = 1;
             }
-            HAL_Delay(150);
+            osDelay(150);
         }
         else if (KEY_DOWN == key) {
             if (current_selection < card_count - 1) {
@@ -889,14 +896,14 @@ void Dele_ID_Card(void)
                 }
                 need_refresh = 1;
             }
-            HAL_Delay(150);
+            osDelay(150);
         }
         else if (KEY_Confirm == key) {
             // 检查是否可删除
             if (!card_list[current_selection].can_delete) {
                 OLED_Clear();
                 OLED_PrintString(0, 3, "Cannot delete fixed card!");
-                HAL_Delay(1000);
+                osDelay(1000);
                 need_refresh = 1;
                 continue;
             }
@@ -925,7 +932,7 @@ void Dele_ID_Card(void)
                     confirmed = 0;
                     break;
                 }
-                HAL_Delay(50);
+                osDelay(50);
             }
             
             if (confirmed) {
@@ -948,7 +955,7 @@ void Dele_ID_Card(void)
                 
                 OLED_Clear();
                 OLED_PrintString(2, 3, "Card Deleted!");
-                HAL_Delay(1000);
+                osDelay(1000);
                 Regular_Admin();
                 return;
             }
@@ -960,6 +967,6 @@ void Dele_ID_Card(void)
             return;
         }
         
-        HAL_Delay(20);
+        osDelay(20);
     }
 }

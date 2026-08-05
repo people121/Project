@@ -1,7 +1,7 @@
 Dependencies for Project 'Smart_Access_Control', Target 'Smart_Access_Control': (DO NOT MODIFY !)
 CompilerVersion: 5060528::V5.06 update 5 (build 528)::.\ARMCC
 F (startup_stm32f103xb.s)(0x6A6C2FDB)(--cpu Cortex-M3 -g --apcs=interwork -I ../Drivers/CMSIS/Include-I.\RTE\_Smart_Access_Control-I"D:\Program Files\STM32\ARM\CMSIS\6.2.0\CMSIS\Core\Include"-I"D:\Program Files\STM32\Keil\STM32F1xx_DFP\2.4.1\Device\Include"--pd "__UVISION_VERSION SETA 543" --pd "STM32F10X_MD SETA 1" --pd "_RTE_ SETA 1"--list startup_stm32f103xb.lst --xref -o smart_access_control\startup_stm32f103xb.o --depend smart_access_control\startup_stm32f103xb.d)
-F (../Core/Src/main.c)(0x6A6C3BDB)(--c99 -c --cpu Cortex-M3 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../HardDrive -I ../SoftDrive -I ../Data -I ../Management -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM3-I.\RTE\_Smart_Access_Control-I"D:\Program Files\STM32\ARM\CMSIS\6.2.0\CMSIS\Core\Include"-I"D:\Program Files\STM32\Keil\STM32F1xx_DFP\2.4.1\Device\Include"-D__UVISION_VERSION="543" -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o smart_access_control\main.o --omf_browse smart_access_control\main.crf --depend smart_access_control\main.d)
+F (../Core/Src/main.c)(0x6A730DCB)(--c99 -c --cpu Cortex-M3 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../HardDrive -I ../SoftDrive -I ../Data -I ../Management -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM3-I.\RTE\_Smart_Access_Control-I"D:\Program Files\STM32\ARM\CMSIS\6.2.0\CMSIS\Core\Include"-I"D:\Program Files\STM32\Keil\STM32F1xx_DFP\2.4.1\Device\Include"-D__UVISION_VERSION="543" -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o smart_access_control\main.o --omf_browse smart_access_control\main.crf --depend smart_access_control\main.d)
 I (../Core/Inc/main.h)(0x69C10048)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x699BFF8A)
 I (../Core/Inc/stm32f1xx_hal_conf.h)(0x69D25CE3)
@@ -34,7 +34,7 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x699BFF8A)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x699BFF8A)
 I (../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h)(0x699BFF8E)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h)(0x699BFF8E)
-I (../Core/Inc/FreeRTOSConfig.h)(0x6A6C3199)
+I (../Core/Inc/FreeRTOSConfig.h)(0x6A731C18)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h)(0x699BFF8E)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h)(0x699BFF8E)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h)(0x699BFF8E)
@@ -55,7 +55,7 @@ I (../Core/Inc/gpio.h)(0x69C10047)
 I (../HardDrive/driver_oled.h)(0x669A594C)
 I (../HardDrive/Button.h)(0x69D4ED11)
 I (../HardDrive/ESP.h)(0x69D648A3)
-I (../HardDrive/DoorOpenPro.h)(0x69D23BB1)
+I (../HardDrive/DoorOpenPro.h)(0x6A730F41)
 I (../SoftDrive/RC522.h)(0x69DCC422)
 I (../SoftDrive/MySPI.h)(0x69D25238)
 I (../SoftDrive/RC522_Ins.h)(0x6980883D)
@@ -63,6 +63,7 @@ I (D:\Program Files\STM32\ARM\ARMCC\include\string.h)(0x588B8344)
 I (D:\Program Files\STM32\ARM\ARMCC\include\stdio.h)(0x588B8344)
 I (../Data/FLASH.h)(0x69D63036)
 I (../Management/AdminOperation.h)(0x6A6C2988)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_wwdg.h)(0x699BFF8A)
 F (../Core/Src/gpio.c)(0x6A66C576)(--c99 -c --cpu Cortex-M3 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../HardDrive -I ../SoftDrive -I ../Data -I ../Management -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM3-I.\RTE\_Smart_Access_Control-I"D:\Program Files\STM32\ARM\CMSIS\6.2.0\CMSIS\Core\Include"-I"D:\Program Files\STM32\Keil\STM32F1xx_DFP\2.4.1\Device\Include"-D__UVISION_VERSION="543" -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o smart_access_control\gpio.o --omf_browse smart_access_control\gpio.crf --depend smart_access_control\gpio.d)
 I (../Core/Inc/gpio.h)(0x69C10047)
 I (../Core/Inc/main.h)(0x69C10048)
@@ -95,11 +96,11 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h)(0x699BFF8A)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h)(0x699BFF8A)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x699BFF8A)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x699BFF8A)
-F (../Core/Src/freertos.c)(0x6A6C7FE0)(--c99 -c --cpu Cortex-M3 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../HardDrive -I ../SoftDrive -I ../Data -I ../Management -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM3-I.\RTE\_Smart_Access_Control-I"D:\Program Files\STM32\ARM\CMSIS\6.2.0\CMSIS\Core\Include"-I"D:\Program Files\STM32\Keil\STM32F1xx_DFP\2.4.1\Device\Include"-D__UVISION_VERSION="543" -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o smart_access_control\freertos.o --omf_browse smart_access_control\freertos.crf --depend smart_access_control\freertos.d)
+F (../Core/Src/freertos.c)(0x6A731E7F)(--c99 -c --cpu Cortex-M3 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../HardDrive -I ../SoftDrive -I ../Data -I ../Management -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM3-I.\RTE\_Smart_Access_Control-I"D:\Program Files\STM32\ARM\CMSIS\6.2.0\CMSIS\Core\Include"-I"D:\Program Files\STM32\Keil\STM32F1xx_DFP\2.4.1\Device\Include"-D__UVISION_VERSION="543" -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o smart_access_control\freertos.o --omf_browse smart_access_control\freertos.crf --depend smart_access_control\freertos.d)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h)(0x699BFF8E)
 I (D:\Program Files\STM32\ARM\ARMCC\include\stddef.h)(0x588B8344)
 I (D:\Program Files\STM32\ARM\ARMCC\include\stdint.h)(0x588B8344)
-I (../Core/Inc/FreeRTOSConfig.h)(0x6A6C3199)
+I (../Core/Inc/FreeRTOSConfig.h)(0x6A731C18)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h)(0x699BFF8E)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h)(0x699BFF8E)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h)(0x699BFF8E)
@@ -142,12 +143,13 @@ I (../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h)(0x699BFF8E)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h)(0x699BFF8E)
 I (../HardDrive/driver_oled.h)(0x669A594C)
 I (../HardDrive/ESP.h)(0x69D648A3)
-I (../HardDrive/DoorOpenPro.h)(0x69D23BB1)
+I (../HardDrive/DoorOpenPro.h)(0x6A730F41)
 I (../Core/Inc/gpio.h)(0x69C10047)
 I (../SoftDrive/RC522.h)(0x69DCC422)
 I (../SoftDrive/MySPI.h)(0x69D25238)
 I (../SoftDrive/RC522_Ins.h)(0x6980883D)
 I (../Management/AdminOperation.h)(0x6A6C2988)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_wwdg.h)(0x699BFF8A)
 F (../Core/Src/dma.c)(0x6A66C578)(--c99 -c --cpu Cortex-M3 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../HardDrive -I ../SoftDrive -I ../Data -I ../Management -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM3-I.\RTE\_Smart_Access_Control-I"D:\Program Files\STM32\ARM\CMSIS\6.2.0\CMSIS\Core\Include"-I"D:\Program Files\STM32\Keil\STM32F1xx_DFP\2.4.1\Device\Include"-D__UVISION_VERSION="543" -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o smart_access_control\dma.o --omf_browse smart_access_control\dma.crf --depend smart_access_control\dma.d)
 I (../Core/Inc/dma.h)(0x69D25CE3)
 I (../Core/Inc/main.h)(0x69C10048)
@@ -276,7 +278,7 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h)(0x699BFF8A)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h)(0x699BFF8A)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x699BFF8A)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x699BFF8A)
-F (../Core/Src/usart.c)(0x6A66E09E)(--c99 -c --cpu Cortex-M3 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../HardDrive -I ../SoftDrive -I ../Data -I ../Management -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM3-I.\RTE\_Smart_Access_Control-I"D:\Program Files\STM32\ARM\CMSIS\6.2.0\CMSIS\Core\Include"-I"D:\Program Files\STM32\Keil\STM32F1xx_DFP\2.4.1\Device\Include"-D__UVISION_VERSION="543" -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o smart_access_control\usart.o --omf_browse smart_access_control\usart.crf --depend smart_access_control\usart.d)
+F (../Core/Src/usart.c)(0x6A730E03)(--c99 -c --cpu Cortex-M3 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../HardDrive -I ../SoftDrive -I ../Data -I ../Management -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM3-I.\RTE\_Smart_Access_Control-I"D:\Program Files\STM32\ARM\CMSIS\6.2.0\CMSIS\Core\Include"-I"D:\Program Files\STM32\Keil\STM32F1xx_DFP\2.4.1\Device\Include"-D__UVISION_VERSION="543" -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o smart_access_control\usart.o --omf_browse smart_access_control\usart.crf --depend smart_access_control\usart.d)
 I (../Core/Inc/usart.h)(0x69C27230)
 I (../Core/Inc/main.h)(0x69C10048)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x699BFF8A)
@@ -308,7 +310,8 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h)(0x699BFF8A)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h)(0x699BFF8A)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x699BFF8A)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x699BFF8A)
-F (../Core/Src/stm32f1xx_it.c)(0x6A66E09E)(--c99 -c --cpu Cortex-M3 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../HardDrive -I ../SoftDrive -I ../Data -I ../Management -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM3-I.\RTE\_Smart_Access_Control-I"D:\Program Files\STM32\ARM\CMSIS\6.2.0\CMSIS\Core\Include"-I"D:\Program Files\STM32\Keil\STM32F1xx_DFP\2.4.1\Device\Include"-D__UVISION_VERSION="543" -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o smart_access_control\stm32f1xx_it.o --omf_browse smart_access_control\stm32f1xx_it.crf --depend smart_access_control\stm32f1xx_it.d)
+I (D:\Program Files\STM32\ARM\ARMCC\include\string.h)(0x588B8344)
+F (../Core/Src/stm32f1xx_it.c)(0x6A730B3F)(--c99 -c --cpu Cortex-M3 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../HardDrive -I ../SoftDrive -I ../Data -I ../Management -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM3-I.\RTE\_Smart_Access_Control-I"D:\Program Files\STM32\ARM\CMSIS\6.2.0\CMSIS\Core\Include"-I"D:\Program Files\STM32\Keil\STM32F1xx_DFP\2.4.1\Device\Include"-D__UVISION_VERSION="543" -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o smart_access_control\stm32f1xx_it.o --omf_browse smart_access_control\stm32f1xx_it.crf --depend smart_access_control\stm32f1xx_it.d)
 I (../Core/Inc/main.h)(0x69C10048)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x699BFF8A)
 I (../Core/Inc/stm32f1xx_hal_conf.h)(0x69D25CE3)
@@ -341,7 +344,7 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x699BFF8A)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x699BFF8A)
 I (../Core/Inc/stm32f1xx_it.h)(0x6A66C579)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h)(0x699BFF8E)
-I (../Core/Inc/FreeRTOSConfig.h)(0x6A6C3199)
+I (../Core/Inc/FreeRTOSConfig.h)(0x6A731C18)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h)(0x699BFF8E)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h)(0x699BFF8E)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h)(0x699BFF8E)
@@ -890,7 +893,7 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h)(0x699BFF8A)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h)(0x699BFF8A)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x699BFF8A)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x699BFF8A)
-F (..\HardDrive\Button.c)(0x69D8D29B)(--c99 -c --cpu Cortex-M3 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../HardDrive -I ../SoftDrive -I ../Data -I ../Management -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM3-I.\RTE\_Smart_Access_Control-I"D:\Program Files\STM32\ARM\CMSIS\6.2.0\CMSIS\Core\Include"-I"D:\Program Files\STM32\Keil\STM32F1xx_DFP\2.4.1\Device\Include"-D__UVISION_VERSION="543" -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o smart_access_control\button.o --omf_browse smart_access_control\button.crf --depend smart_access_control\button.d)
+F (..\HardDrive\Button.c)(0x6A72FCFC)(--c99 -c --cpu Cortex-M3 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../HardDrive -I ../SoftDrive -I ../Data -I ../Management -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM3-I.\RTE\_Smart_Access_Control-I"D:\Program Files\STM32\ARM\CMSIS\6.2.0\CMSIS\Core\Include"-I"D:\Program Files\STM32\Keil\STM32F1xx_DFP\2.4.1\Device\Include"-D__UVISION_VERSION="543" -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o smart_access_control\button.o --omf_browse smart_access_control\button.crf --depend smart_access_control\button.d)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x699BFF8A)
 I (../Core/Inc/stm32f1xx_hal_conf.h)(0x69D25CE3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h)(0x699BFF8A)
@@ -923,6 +926,20 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x699BFF8A)
 I (..\HardDrive\button.h)(0x69D4ED11)
 I (../Core/Inc/gpio.h)(0x69C10047)
 I (../Core/Inc/main.h)(0x69C10048)
+I (../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h)(0x699BFF8E)
+I (../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h)(0x699BFF8E)
+I (../Core/Inc/FreeRTOSConfig.h)(0x6A731C18)
+I (../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h)(0x699BFF8E)
+I (../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h)(0x699BFF8E)
+I (../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h)(0x699BFF8E)
+I (../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM3/portmacro.h)(0x699BFF8E)
+I (../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h)(0x699BFF8E)
+I (../Middlewares/Third_Party/FreeRTOS/Source/include/task.h)(0x699BFF8E)
+I (../Middlewares/Third_Party/FreeRTOS/Source/include/list.h)(0x699BFF8E)
+I (../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h)(0x699BFF8E)
+I (../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h)(0x699BFF8E)
+I (../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h)(0x699BFF8E)
+I (../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h)(0x699BFF8E)
 F (..\HardDrive\Button.h)(0x69D4ED11)()
 F (..\HardDrive\DoorOpenPro.c)(0x6A646235)(--c99 -c --cpu Cortex-M3 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../HardDrive -I ../SoftDrive -I ../Data -I ../Management -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM3-I.\RTE\_Smart_Access_Control-I"D:\Program Files\STM32\ARM\CMSIS\6.2.0\CMSIS\Core\Include"-I"D:\Program Files\STM32\Keil\STM32F1xx_DFP\2.4.1\Device\Include"-D__UVISION_VERSION="543" -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o smart_access_control\dooropenpro.o --omf_browse smart_access_control\dooropenpro.crf --depend smart_access_control\dooropenpro.d)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x699BFF8A)
@@ -956,9 +973,9 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x699BFF8A)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x699BFF8A)
 I (../Core/Inc/gpio.h)(0x69C10047)
 I (../Core/Inc/main.h)(0x69C10048)
-I (..\HardDrive\DoorOpenPro.h)(0x69D23BB1)
+I (..\HardDrive\DoorOpenPro.h)(0x6A730F41)
 I (../Core/Inc/tim.h)(0x69CB7FD4)
-F (..\HardDrive\DoorOpenPro.h)(0x69D23BB1)()
+F (..\HardDrive\DoorOpenPro.h)(0x6A730F41)()
 F (..\HardDrive\driver_oled.c)(0x69C109F0)(--c99 -c --cpu Cortex-M3 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../HardDrive -I ../SoftDrive -I ../Data -I ../Management -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM3-I.\RTE\_Smart_Access_Control-I"D:\Program Files\STM32\ARM\CMSIS\6.2.0\CMSIS\Core\Include"-I"D:\Program Files\STM32\Keil\STM32F1xx_DFP\2.4.1\Device\Include"-D__UVISION_VERSION="543" -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o smart_access_control\driver_oled.o --omf_browse smart_access_control\driver_oled.crf --depend smart_access_control\driver_oled.d)
 I (..\HardDrive\driver_oled.h)(0x669A594C)
 I (D:\Program Files\STM32\ARM\ARMCC\include\stdint.h)(0x588B8344)
@@ -1026,7 +1043,7 @@ I (D:\Program Files\STM32\ARM\ARMCC\include\string.h)(0x588B8344)
 I (D:\Program Files\STM32\ARM\ARMCC\include\stdio.h)(0x588B8344)
 I (../Core/Inc/usart.h)(0x69C27230)
 I (../Core/Inc/main.h)(0x69C10048)
-I (..\HardDrive\DoorOpenPro.h)(0x69D23BB1)
+I (..\HardDrive\DoorOpenPro.h)(0x6A730F41)
 I (../Management/AdminOperation.h)(0x6A6C2988)
 F (..\HardDrive\ESP.h)(0x69D648A3)()
 F (..\SoftDrive\MySPI.c)(0x6A6C376C)(--c99 -c --cpu Cortex-M3 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../HardDrive -I ../SoftDrive -I ../Data -I ../Management -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM3-I.\RTE\_Smart_Access_Control-I"D:\Program Files\STM32\ARM\CMSIS\6.2.0\CMSIS\Core\Include"-I"D:\Program Files\STM32\Keil\STM32F1xx_DFP\2.4.1\Device\Include"-D__UVISION_VERSION="543" -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o smart_access_control\myspi.o --omf_browse smart_access_control\myspi.crf --depend smart_access_control\myspi.d)
@@ -1132,7 +1149,7 @@ I (../Core/Inc/main.h)(0x69C10048)
 I (..\Data\FLASH.h)(0x69D63036)
 I (../HardDrive/driver_oled.h)(0x669A594C)
 F (..\Data\FLASH.h)(0x69D63036)()
-F (..\Management\AdminOperation.c)(0x6A6C7F4D)(--c99 -c --cpu Cortex-M3 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../HardDrive -I ../SoftDrive -I ../Data -I ../Management -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM3-I.\RTE\_Smart_Access_Control-I"D:\Program Files\STM32\ARM\CMSIS\6.2.0\CMSIS\Core\Include"-I"D:\Program Files\STM32\Keil\STM32F1xx_DFP\2.4.1\Device\Include"-D__UVISION_VERSION="543" -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o smart_access_control\adminoperation.o --omf_browse smart_access_control\adminoperation.crf --depend smart_access_control\adminoperation.d)
+F (..\Management\AdminOperation.c)(0x6A732256)(--c99 -c --cpu Cortex-M3 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../HardDrive -I ../SoftDrive -I ../Data -I ../Management -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM3-I.\RTE\_Smart_Access_Control-I"D:\Program Files\STM32\ARM\CMSIS\6.2.0\CMSIS\Core\Include"-I"D:\Program Files\STM32\Keil\STM32F1xx_DFP\2.4.1\Device\Include"-D__UVISION_VERSION="543" -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o smart_access_control\adminoperation.o --omf_browse smart_access_control\adminoperation.crf --depend smart_access_control\adminoperation.d)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x699BFF8A)
 I (../Core/Inc/stm32f1xx_hal_conf.h)(0x69D25CE3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h)(0x699BFF8A)
@@ -1169,10 +1186,11 @@ I (../Data/FLASH.h)(0x69D63036)
 I (../SoftDrive/RC522.h)(0x69DCC422)
 I (../SoftDrive/MySPI.h)(0x69D25238)
 I (../SoftDrive/RC522_Ins.h)(0x6980883D)
-I (../HardDrive/DoorOpenPro.h)(0x69D23BB1)
+I (../HardDrive/DoorOpenPro.h)(0x6A730F41)
+I (../Core/Inc/main.h)(0x69C10048)
 I (../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h)(0x699BFF8E)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h)(0x699BFF8E)
-I (../Core/Inc/FreeRTOSConfig.h)(0x6A6C3199)
+I (../Core/Inc/FreeRTOSConfig.h)(0x6A731C18)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h)(0x699BFF8E)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h)(0x699BFF8E)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h)(0x699BFF8E)
@@ -1189,7 +1207,7 @@ F (../Middlewares/Third_Party/FreeRTOS/Source/croutine.c)(0x699BFF8E)(--c99 -c -
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h)(0x699BFF8E)
 I (D:\Program Files\STM32\ARM\ARMCC\include\stddef.h)(0x588B8344)
 I (D:\Program Files\STM32\ARM\ARMCC\include\stdint.h)(0x588B8344)
-I (../Core/Inc/FreeRTOSConfig.h)(0x6A6C3199)
+I (../Core/Inc/FreeRTOSConfig.h)(0x6A731C18)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h)(0x699BFF8E)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h)(0x699BFF8E)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h)(0x699BFF8E)
@@ -1203,7 +1221,7 @@ I (D:\Program Files\STM32\ARM\ARMCC\include\stdlib.h)(0x588B8344)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h)(0x699BFF8E)
 I (D:\Program Files\STM32\ARM\ARMCC\include\stddef.h)(0x588B8344)
 I (D:\Program Files\STM32\ARM\ARMCC\include\stdint.h)(0x588B8344)
-I (../Core/Inc/FreeRTOSConfig.h)(0x6A6C3199)
+I (../Core/Inc/FreeRTOSConfig.h)(0x6A731C18)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h)(0x699BFF8E)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h)(0x699BFF8E)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h)(0x699BFF8E)
@@ -1218,7 +1236,7 @@ I (D:\Program Files\STM32\ARM\ARMCC\include\stdlib.h)(0x588B8344)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h)(0x699BFF8E)
 I (D:\Program Files\STM32\ARM\ARMCC\include\stddef.h)(0x588B8344)
 I (D:\Program Files\STM32\ARM\ARMCC\include\stdint.h)(0x588B8344)
-I (../Core/Inc/FreeRTOSConfig.h)(0x6A6C3199)
+I (../Core/Inc/FreeRTOSConfig.h)(0x6A731C18)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h)(0x699BFF8E)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h)(0x699BFF8E)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h)(0x699BFF8E)
@@ -1231,7 +1249,7 @@ I (D:\Program Files\STM32\ARM\ARMCC\include\string.h)(0x588B8344)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h)(0x699BFF8E)
 I (D:\Program Files\STM32\ARM\ARMCC\include\stddef.h)(0x588B8344)
 I (D:\Program Files\STM32\ARM\ARMCC\include\stdint.h)(0x588B8344)
-I (../Core/Inc/FreeRTOSConfig.h)(0x6A6C3199)
+I (../Core/Inc/FreeRTOSConfig.h)(0x6A731C18)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h)(0x699BFF8E)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h)(0x699BFF8E)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h)(0x699BFF8E)
@@ -1245,7 +1263,7 @@ I (D:\Program Files\STM32\ARM\ARMCC\include\stdint.h)(0x588B8344)
 I (D:\Program Files\STM32\ARM\ARMCC\include\string.h)(0x588B8344)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h)(0x699BFF8E)
 I (D:\Program Files\STM32\ARM\ARMCC\include\stddef.h)(0x588B8344)
-I (../Core/Inc/FreeRTOSConfig.h)(0x6A6C3199)
+I (../Core/Inc/FreeRTOSConfig.h)(0x6A731C18)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h)(0x699BFF8E)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h)(0x699BFF8E)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h)(0x699BFF8E)
@@ -1260,7 +1278,7 @@ I (D:\Program Files\STM32\ARM\ARMCC\include\string.h)(0x588B8344)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h)(0x699BFF8E)
 I (D:\Program Files\STM32\ARM\ARMCC\include\stddef.h)(0x588B8344)
 I (D:\Program Files\STM32\ARM\ARMCC\include\stdint.h)(0x588B8344)
-I (../Core/Inc/FreeRTOSConfig.h)(0x6A6C3199)
+I (../Core/Inc/FreeRTOSConfig.h)(0x6A731C18)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h)(0x699BFF8E)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h)(0x699BFF8E)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h)(0x699BFF8E)
@@ -1275,7 +1293,7 @@ I (D:\Program Files\STM32\ARM\ARMCC\include\stdlib.h)(0x588B8344)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h)(0x699BFF8E)
 I (D:\Program Files\STM32\ARM\ARMCC\include\stddef.h)(0x588B8344)
 I (D:\Program Files\STM32\ARM\ARMCC\include\stdint.h)(0x588B8344)
-I (../Core/Inc/FreeRTOSConfig.h)(0x6A6C3199)
+I (../Core/Inc/FreeRTOSConfig.h)(0x6A731C18)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h)(0x699BFF8E)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h)(0x699BFF8E)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h)(0x699BFF8E)
@@ -1291,7 +1309,7 @@ I (../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h)(0x699BFF8E)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h)(0x699BFF8E)
 I (D:\Program Files\STM32\ARM\ARMCC\include\stddef.h)(0x588B8344)
 I (D:\Program Files\STM32\ARM\ARMCC\include\stdint.h)(0x588B8344)
-I (../Core/Inc/FreeRTOSConfig.h)(0x6A6C3199)
+I (../Core/Inc/FreeRTOSConfig.h)(0x6A731C18)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h)(0x699BFF8E)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h)(0x699BFF8E)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h)(0x699BFF8E)
@@ -1309,7 +1327,7 @@ I (D:\Program Files\STM32\ARM\ARMCC\include\stdlib.h)(0x588B8344)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h)(0x699BFF8E)
 I (D:\Program Files\STM32\ARM\ARMCC\include\stddef.h)(0x588B8344)
 I (D:\Program Files\STM32\ARM\ARMCC\include\stdint.h)(0x588B8344)
-I (../Core/Inc/FreeRTOSConfig.h)(0x6A6C3199)
+I (../Core/Inc/FreeRTOSConfig.h)(0x6A731C18)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h)(0x699BFF8E)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h)(0x699BFF8E)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h)(0x699BFF8E)
@@ -1321,7 +1339,7 @@ F (../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM3/port.c)(0x69
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h)(0x699BFF8E)
 I (D:\Program Files\STM32\ARM\ARMCC\include\stddef.h)(0x588B8344)
 I (D:\Program Files\STM32\ARM\ARMCC\include\stdint.h)(0x588B8344)
-I (../Core/Inc/FreeRTOSConfig.h)(0x6A6C3199)
+I (../Core/Inc/FreeRTOSConfig.h)(0x6A731C18)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h)(0x699BFF8E)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h)(0x699BFF8E)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h)(0x699BFF8E)

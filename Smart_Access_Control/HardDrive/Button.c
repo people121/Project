@@ -1,6 +1,7 @@
 #include "stm32f1xx_hal.h"
 #include "button.h"
 #include "gpio.h"
+#include "cmsis_os.h"
 
 /*定义行线（输出）引脚 */
 #define ROW1_PIN    GPIO_PIN_0
@@ -82,7 +83,7 @@ char Button_GetKey(void)
         }
         
         /* 等待电平稳定 */
-        HAL_Delay(1);
+        osDelay(1);
         
         /* 检测当前行的列输入 */
         if(HAL_GPIO_ReadPin(COL_PORT, COL1_PIN) == GPIO_PIN_RESET)
@@ -114,7 +115,7 @@ char Button_GetKey(void)
     if(KeyValue != KEY_NONE)
     {
         /* 防抖延时 */
-        HAL_Delay(20);
+        osDelay(20);
         
         /* 再次确认按键是否仍然按下（二次检测）*/
         uint8_t confirm = 0;
@@ -140,7 +141,7 @@ char Button_GetKey(void)
                     HAL_GPIO_WritePin(ROW_PORT, ROW1_PIN | ROW2_PIN | ROW3_PIN, GPIO_PIN_SET);
                     break;
             }
-            HAL_Delay(1);
+            osDelay(1);
             
             if(HAL_GPIO_ReadPin(COL_PORT, COL1_PIN) == GPIO_PIN_RESET && key_map[ROW][0] == KeyValue)
             {
@@ -196,7 +197,7 @@ char Button_GetKey(void)
                         HAL_GPIO_WritePin(ROW_PORT, ROW1_PIN | ROW2_PIN | ROW3_PIN, GPIO_PIN_SET);
                         break;
                 }
-                HAL_Delay(1);
+                osDelay(1);
                 
                 if(HAL_GPIO_ReadPin(COL_PORT, COL1_PIN) == GPIO_PIN_RESET ||
                    HAL_GPIO_ReadPin(COL_PORT, COL2_PIN) == GPIO_PIN_RESET ||
@@ -212,7 +213,7 @@ char Button_GetKey(void)
             if(released)
                 break;
                 
-            HAL_Delay(10);
+            osDelay(1);
         }
         
         /* 记录按键和时间 */

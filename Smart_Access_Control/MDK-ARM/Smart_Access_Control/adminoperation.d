@@ -37,6 +37,7 @@ smart_access_control\adminoperation.o: ../SoftDrive/RC522.h
 smart_access_control\adminoperation.o: ../SoftDrive/MySPI.h
 smart_access_control\adminoperation.o: ../SoftDrive/RC522_Ins.h
 smart_access_control\adminoperation.o: ../HardDrive/DoorOpenPro.h
+smart_access_control\adminoperation.o: ../Core/Inc/main.h
 smart_access_control\adminoperation.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
 smart_access_control\adminoperation.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
 smart_access_control\adminoperation.o: ../Core/Inc/FreeRTOSConfig.h

@@ -61,3 +61,4 @@ smart_access_control\main.o: D:\Program Files\STM32\ARM\ARMCC\Bin\..\include\str
 smart_access_control\main.o: D:\Program Files\STM32\ARM\ARMCC\Bin\..\include\stdio.h
 smart_access_control\main.o: ../Data/FLASH.h
 smart_access_control\main.o: ../Management/AdminOperation.h
+smart_access_control\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_wwdg.h

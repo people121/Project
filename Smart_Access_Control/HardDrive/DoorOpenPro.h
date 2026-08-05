@@ -1,5 +1,6 @@
 #ifndef __DOOROPENPRO_H
 #define __DOOROPENPRO_H
+#include "main.h"
 
 /*
  *  函数名：buzzer_open

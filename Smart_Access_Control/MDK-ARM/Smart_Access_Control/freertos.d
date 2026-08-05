@@ -52,3 +52,4 @@ smart_access_control\freertos.o: ../SoftDrive/RC522.h
 smart_access_control\freertos.o: ../SoftDrive/MySPI.h
 smart_access_control\freertos.o: ../SoftDrive/RC522_Ins.h
 smart_access_control\freertos.o: ../Management/AdminOperation.h
+smart_access_control\freertos.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_wwdg.h
