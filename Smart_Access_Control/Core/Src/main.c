@@ -37,6 +37,7 @@
 #include <stdio.h>
 #include "FLASH.h"
 #include "AdminOperation.h"
+#include "stm32f1xx_hal_wwdg.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -70,14 +71,15 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-
+TIM_HandleTypeDef htim2;
+volatile uint8_t wdg_feed_flag = 0;   // 喂狗标志
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 void MX_FREERTOS_Init(void);
 /* USER CODE BEGIN PFP */
-
+void MX_TIM2_Init(void);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -124,17 +126,16 @@ int main(void)
   OLED_Clear();
   RC522_Init();
   Button_Init();
-  
   OLED_PrintString(2, 0, "ESP Init...");
 	HAL_Delay(500);
 
 	// 初始化ESP-01S（等待连接完成）
-	if(ESP_Init()) {
-		OLED_PrintString(2, 2, "ESP OK!");
-	} else {
-		OLED_PrintString(2, 2, "ESP Fail!");
-	}
-	HAL_Delay(1000);
+//	if(ESP_Init()) {
+//		OLED_PrintString(2, 2, "ESP OK!");
+//	} else {
+//		OLED_PrintString(2, 2, "ESP Fail!");
+//	}
+//	HAL_Delay(1000);
   
 
   /* 启动PWM（舵机） */
@@ -167,6 +168,8 @@ int main(void)
   /* USER CODE END 2 */
 
   /* Call init function for freertos objects (in cmsis_os2.c) */
+  wdg_feed_flag = 1;
+  MX_TIM2_Init();
   MX_FREERTOS_Init();
 
   /* Start scheduler */
@@ -225,7 +228,33 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
+void MX_TIM2_Init(void)
+{
+    __HAL_RCC_TIM2_CLK_ENABLE();
 
+    htim2.Instance = TIM2;
+    htim2.Init.Prescaler = 7200 - 1;      // 72MHz/7200 = 10kHz
+    htim2.Init.Period = 10000 - 1;        // 10kHz / 10000 = 1Hz
+    htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
+    if (HAL_TIM_Base_Init(&htim2) != HAL_OK) {
+        Error_Handler();
+    }
+    // 设置中断优先级并启用中断
+    HAL_NVIC_SetPriority(TIM2_IRQn, 1, 0);   // 设置优先级（数值越小优先级越高）
+    HAL_NVIC_EnableIRQ(TIM2_IRQn);
+    HAL_TIM_Base_Start_IT(&htim2);
+}
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+    if (htim->Instance == TIM2) {
+        if (wdg_feed_flag == 0) {
+            // 超时未喂狗，软件复位
+            NVIC_SystemReset();
+        } else {
+            wdg_feed_flag = 0;   // 清零，等待下次喂狗
+        }
+    }
+}
 /* USER CODE END 4 */
 
 /**

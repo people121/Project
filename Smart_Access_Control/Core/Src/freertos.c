@@ -31,6 +31,7 @@
 #include "gpio.h"
 #include "RC522.h"
 #include "AdminOperation.h"
+#include "stm32f1xx_hal_wwdg.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -41,6 +42,7 @@
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
 extern unsigned char user_uid[4];                   // 存储读到的卡片ID
+extern volatile uint8_t wdg_feed_flag;
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -69,13 +71,15 @@ void StartRegularTask(void const * argument);   // 用户界面任务函数
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
 /* GetIdleTaskMemory prototype (linked to static allocation support) */
-void vApplicationGetIdleTaskMemory( StaticTask_t **ppxIdleTaskTCBBuffer, StackType_t **ppxIdleTaskStackBuffer, uint32_t *pulIdleTaskStackSize );
+void vApplicationGetIdleTaskMemory( StaticTask_t **ppxIdleTaskTCBBuffer,
+	StackType_t **ppxIdleTaskStackBuffer, uint32_t *pulIdleTaskStackSize );
 
 /* USER CODE BEGIN GET_IDLE_TASK_MEMORY */
 static StaticTask_t xIdleTaskTCBBuffer;
 static StackType_t xIdleStack[configMINIMAL_STACK_SIZE];
 
-void vApplicationGetIdleTaskMemory( StaticTask_t **ppxIdleTaskTCBBuffer, StackType_t **ppxIdleTaskStackBuffer, uint32_t *pulIdleTaskStackSize )
+void vApplicationGetIdleTaskMemory( StaticTask_t **ppxIdleTaskTCBBuffer, 
+	StackType_t **ppxIdleTaskStackBuffer, uint32_t *pulIdleTaskStackSize )
 {
   *ppxIdleTaskTCBBuffer = &xIdleTaskTCBBuffer;
   *ppxIdleTaskStackBuffer = &xIdleStack[0];
@@ -120,34 +124,16 @@ void MX_FREERTOS_Init(void) {
   /* 界面刷新任务（低优先级，不卡顿即可） */
   osThreadDef(regularTask, StartRegularTask, osPriorityLow, 0, 256);
   regularTaskHandle = osThreadCreate(osThread(regularTask), NULL);
-	if (regularTaskHandle == NULL){
-		    HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
-			osDelay(500);
-	} 
 
   /* RC522刷卡任务（中优先级，有延时） */
   osThreadDef(rc522Task, StartRC522Task, osPriorityNormal, 0, 256);
   rc522TaskHandle = osThreadCreate(osThread(rc522Task), NULL);
-	if(rc522TaskHandle == NULL){
-		while (1) {
-			HAL_GPIO_WritePin(GPIOB, GPIO_PIN_8, GPIO_PIN_SET);
-			HAL_Delay(200);
-			HAL_GPIO_WritePin(GPIOB, GPIO_PIN_8, GPIO_PIN_RESET);
-			HAL_Delay(200);
-		}
-	}
+
 
   /* ESP通信任务（高优先级，处理网络数据） */
   osThreadDef(userTask, StartUserTask, osPriorityAboveNormal, 0, 512);
   userTaskHandle = osThreadCreate(osThread(userTask), NULL);
-	if(userTaskHandle == NULL){
-		 while (1) {
-			HAL_GPIO_WritePin(GPIOB, GPIO_PIN_9, GPIO_PIN_SET);
-			HAL_Delay(200);
-			HAL_GPIO_WritePin(GPIOB, GPIO_PIN_9, GPIO_PIN_RESET);
-			HAL_Delay(200);
-		}
-	}  
+
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -166,10 +152,10 @@ void StartDefaultTask(void const * argument)
 {
   /* USER CODE BEGIN StartDefaultTask */
   /* Infinite loop */
-  for(;;)
-  {
-    osDelay(1);
-  }
+	for(;;) {
+		wdg_feed_flag = 1;    // 喂狗
+        osDelay(200);         // 每 200ms 喂一次，定时器超时 1s，足够
+	}
   /* USER CODE END StartDefaultTask */
 }
 /*
@@ -203,15 +189,27 @@ void StartUserTask(void const * argument)
  */
 void StartRC522Task(void const * argument)
 {
-    for(;;){
-		// 每次循环复位 RC522，确保干净状态
-        RC522_Reset();
-        RC522_AntennaOn();
-        if(RC522_ReadCardID(user_uid) == MI_OK){
-            Uid_Read();                    // 处理刷卡
-            RC522_Halt();                  // 让卡片休眠，避免重复读取
+    uint8_t fail_count = 0;
+    const uint8_t MAX_FAIL = 3;
+
+    for(;;)
+    {
+        if (RC522_ReadCardID(user_uid) == MI_OK) {
+            fail_count = 0;
+            OLED_PrintString(0, 6, "             ");
+            Uid_Read();           // 单次处理
+            RC522_Halt();
+            // 处理后复位，确保下次读卡状态干净
+            RC522_Reset();
+            RC522_AntennaOn();
+        } else {
+            fail_count++;
+            if (fail_count >= MAX_FAIL) {
+                RC522_Init();     // 完全重新初始化
+                fail_count = 0;
+            }
         }
-        osDelay(100);                      // 每100ms扫描一次，释放CPU
+        osDelay(50);
     }
 }
 
@@ -226,7 +224,6 @@ void StartRegularTask(void const * argument)
   {
     /* 进入用户主界面 */
     Regular_User();
-    
     osDelay(50);
   }
 }

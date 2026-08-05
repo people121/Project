@@ -8,7 +8,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "usart.h"
-
+#include <string.h>
 /* USER CODE BEGIN 0 */
 /* ESP-01S 串口接收缓冲区 */
 #define UART1_RX_BUF_SIZE  256
