@@ -54,5 +54,7 @@ void ESP_Process(void);
  * @return 实际数据长度，0表示无数据
  */
 uint16_t ESP_GetReceivedData(uint8_t* buf, uint16_t max_len);
-
+// 在 ESP.h 中添加
+void ESP_ReconnectWiFi(char *ssid, char *password);
+uint8_t ESP_ReconnectBemfa(void);
 #endif /* __ESP_H */

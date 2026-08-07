@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>智能门禁控制</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f0f2f5;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            border-radius: 24px;
+            padding: 30px 25px 40px;
+            max-width: 480px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .header h1 {
+            font-size: 24px;
+            color: #1a1a2e;
+            letter-spacing: 1px;
+        }
+        .header .subtitle {
+            font-size: 13px;
+            color: #999;
+            margin-top: 4px;
+        }
+        .status-bar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: #f8f9fa;
+            padding: 12px 0;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            animation: pulse 1.5s infinite;
+        }
+        .status-dot.online {
+            background: #2ecc71;
+        }
+        .status-dot.offline {
+            background: #e74c3c;
+            animation: none;
+        }
+        @keyframes pulse {
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.6;
+                transform: scale(0.85);
+            }
+        }
+        .status-text {
+            font-size: 15px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .btn {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: white;
+            user-select: none;
+            touch-action: manipulation;
+        }
+        .btn:active {
+            transform: scale(0.92);
+        }
+        .btn:disabled {
+            opacity: 0.5;
+            transform: none;
+            cursor: not-allowed;
+        }
+        .btn .icon {
+            font-size: 40px;
+            margin-bottom: 4px;
+            line-height: 1;
+        }
+        .btn-open {
+            background: linear-gradient(135deg, #2ecc71, #1abc9c);
+            box-shadow: 0 8px 30px rgba(46, 204, 113, 0.35);
+        }
+        .btn-close {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            box-shadow: 0 8px 30px rgba(231, 76, 60, 0.35);
+        }
+
+        .extra-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .extra-btn {
+            flex: 1;
+            min-width: 80px;
+            background: #e8ecf1;
+            border: none;
+            border-radius: 40px;
+            padding: 10px 0;
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+            cursor: pointer;
+            transition: background 0.2s;
+            text-align: center;
+        }
+        .extra-btn:active {
+            background: #d0d6df;
+        }
+        .extra-btn .icon-sm {
+            margin-right: 6px;
+        }
+
+        .info-box {
+            background: #f8f9fa;
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 16px;
+            text-align: center;
+            color: #555;
+            font-size: 14px;
+        }
+        .info-box .highlight {
+            color: #1a73e8;
+            font-weight: bold;
+        }
+
+        .log-section {
+            background: #f8f9fa;
+            border-radius: 16px;
+            padding: 14px 16px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .log-section::-webkit-scrollbar {
+            width: 3px;
+        }
+        .log-section::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 10px;
+        }
+        .log-title {
+            font-size: 14px;
+            color: #888;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .log-title .clear-btn {
+            color: #e74c3c;
+            font-size: 12px;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+        .log-title .clear-btn:hover {
+            text-decoration: underline;
+        }
+        .log-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            border-bottom: 1px solid #eee;
+            font-size: 13px;
+        }
+        .log-item:last-child {
+            border-bottom: none;
+        }
+        .log-time {
+            color: #999;
+            font-size: 12px;
+        }
+        .log-status {
+            padding: 2px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .log-status.success {
+            background: #d5f5e3;
+            color: #1abc9c;
+        }
+        .log-status.fail {
+            background: #fadbd8;
+            color: #e74c3c;
+        }
+        .log-status.sent {
+            background: #d6eaf8;
+            color: #3498db;
+        }
+        .empty-log {
+            text-align: center;
+            color: #bbb;
+            font-size: 13px;
+            padding: 16px 0;
+        }
+
+        .toast {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.8);
+            background: rgba(0, 0, 0, 0.75);
+            color: white;
+            padding: 18px 30px;
+            border-radius: 16px;
+            font-size: 16px;
+            font-weight: 500;
+            pointer-events: none;
+            opacity: 0;
+            transition: all 0.25s ease;
+            backdrop-filter: blur(4px);
+            z-index: 999;
+        }
+        .toast.show {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(3px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal {
+            background: white;
+            border-radius: 24px;
+            padding: 28px 24px 32px;
+            max-width: 380px;
+            width: 90%;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+            transform: scale(0.9) translateY(20px);
+            transition: transform 0.3s ease;
+        }
+        .modal-overlay.active .modal {
+            transform: scale(1) translateY(0);
+        }
+        .modal h2 {
+            font-size: 20px;
+            color: #1a1a2e;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+        .modal label {
+            display: block;
+            font-size: 14px;
+            color: #555;
+            margin-top: 12px;
+            margin-bottom: 4px;
+        }
+        .modal input,
+        .modal select {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid #ddd;
+            border-radius: 40px;
+            font-size: 14px;
+            outline: none;
+            transition: border 0.2s;
+        }
+        .modal input:focus,
+        .modal select:focus {
+            border-color: #3498db;
+        }
+        .modal .btn-row {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+        .modal .btn-row button {
+            flex: 1;
+            padding: 12px 0;
+            border: none;
+            border-radius: 40px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .modal .btn-primary {
+            background: #3498db;
+            color: white;
+        }
+        .modal .btn-primary:active {
+            background: #2980b9;
+        }
+        .modal .btn-secondary {
+            background: #e8ecf1;
+            color: #333;
+        }
+        .modal .btn-secondary:active {
+            background: #d0d6df;
+        }
+        .modal .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 18px;
+            font-size: 12px;
+            color: #bbb;
+        }
+
+        @media (max-width:400px) {
+            .btn {
+                width: 100px;
+                height: 100px;
+                font-size: 14px;
+            }
+            .btn .icon {
+                font-size: 34px;
+            }
+            .container {
+                padding: 20px 15px 30px;
+            }
+            .modal {
+                padding: 20px 16px 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+
+    <!-- 管理卡片模态框 -->
+    <div class="modal-overlay" id="modalCard">
+        <div class="modal">
+            <h2>📇 管理卡片</h2>
+            <label for="cardId">卡片ID（8位十六进制）</label>
+            <input type="text" id="cardId" placeholder="例如: BAD3411D" maxlength="8" style="text-transform:uppercase;" />
+            <label for="cardAction">操作</label>
+            <select id="cardAction">
+                <option value="add_user">添加用户卡</option>
+                <option value="add_admin">添加管理员卡</option>
+                <option value="del_user">删除用户卡</option>
+                <option value="del_admin">删除管理员卡</option>
+            </select>
+            <div class="btn-row">
+                <button class="btn-secondary" id="modalCardCancel">取消</button>
+                <button class="btn-primary" id="modalCardConfirm">发送指令</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 修改密码模态框 -->
+    <div class="modal-overlay" id="modalPwd">
+        <div class="modal">
+            <h2>🔑 修改密码</h2>
+            <label for="pwdType">密码类型</label>
+            <select id="pwdType">
+                <option value="user">用户密码</option>
+                <option value="admin">管理员密码</option>
+            </select>
+            <label for="newPwd">新密码（6位数字）</label>
+            <input type="password" id="newPwd" placeholder="请输入6位数字" maxlength="6" inputmode="numeric" pattern="[0-9]*" />
+            <label for="confirmPwd">确认密码</label>
+            <input type="password" id="confirmPwd" placeholder="再次输入" maxlength="6" inputmode="numeric" pattern="[0-9]*" />
+            <div class="btn-row">
+                <button class="btn-secondary" id="modalPwdCancel">取消</button>
+                <button class="btn-primary" id="modalPwdConfirm">确认修改</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- WiFi配网模态框 -->
+    <div class="modal-overlay" id="modalWifi">
+        <div class="modal">
+            <h2>📶 WiFi 配网</h2>
+            <label for="wifiSsid">WiFi 名称 (SSID)</label>
+            <input type="text" id="wifiSsid" placeholder="请输入 WiFi 名称" />
+            <label for="wifiPassword">WiFi 密码</label>
+            <input type="password" id="wifiPassword" placeholder="请输入 WiFi 密码" />
+            <div class="btn-row">
+                <button class="btn-secondary" id="modalWifiCancel">取消</button>
+                <button class="btn-primary" id="modalWifiConfirm">发送配置</button>
+            </div>
+            <p style="font-size:12px;color:#999;margin-top:12px;text-align:center;">
+                ⚠️ 设备将重启WiFi连接，约需10秒
+            </p>
+        </div>
+    </div>
+
+    <!-- 主界面 -->
+    <div class="container">
+        <div class="header">
+            <h1>🚪 智能门禁</h1>
+            <div class="subtitle">Smart Access Control</div>
+        </div>
+
+        <div class="status-bar">
+            <span class="status-dot online" id="statusDot"></span>
+            <span class="status-text" id="statusText">设备在线</span>
+        </div>
+
+        <div class="btn-group">
+            <button class="btn btn-open" id="btnOpen"><span class="icon">🔓</span>开门</button>
+            <button class="btn btn-close" id="btnClose"><span class="icon">🔒</span>关门</button>
+        </div>
+
+        <div class="extra-row">
+            <button class="extra-btn" id="btnManageCard"><span class="icon-sm">📇</span>管理卡片</button>
+            <button class="extra-btn" id="btnViewCards"><span class="icon-sm">👀</span>查看卡片</button>
+            <button class="extra-btn" id="btnChangePwd"><span class="icon-sm">🔑</span>修改密码</button>
+            <button class="extra-btn" id="btnWifiConfig"><span class="icon-sm">📶</span>WiFi配网</button>
+        </div>
+
+        <!-- 提示框 -->
+        <div class="info-box">
+            📌 点击「查看卡片」后，<span class="highlight">请查看设备OLED屏幕</span>，卡片列表将显示在设备上。
+        </div>
+
+        <div class="log-section" id="logSection">
+            <div class="log-title">
+                <span>📋 操作记录（最新5条）</span>
+                <button class="clear-btn" id="clearLog">清空</button>
+            </div>
+            <div id="logList"><div class="empty-log">暂无记录</div></div>
+        </div>
+
+        <div class="footer">控制指令通过巴法云实时传输</div>
+    </div>
+
+    <script>
+        // ============================================================
+        // 配置
+        // ============================================================
+        const CONFIG = {
+            UID: '997fb7889ff742939fe5860e41a201d1',
+            TOPIC: 'led001',
+            API_SEND: 'https://api.bemfa.com/api/device/v1/data/1/'
+        };
+
+        // ============================================================
+        // 状态
+        // ============================================================
+        const state = {
+            isLoading: false,
+            logs: []
+        };
+
+        // DOM
+        const $ = id => document.getElementById(id);
+        const btnOpen = $('btnOpen');
+        const btnClose = $('btnClose');
+        const btnManageCard = $('btnManageCard');
+        const btnViewCards = $('btnViewCards');
+        const btnChangePwd = $('btnChangePwd');
+        const btnWifiConfig = $('btnWifiConfig');
+        const logList = $('logList');
+        const toast = $('toast');
+
+        // 模态框 - 卡片
+        const modalCard = $('modalCard');
+        const modalCardCancel = $('modalCardCancel');
+        const modalCardConfirm = $('modalCardConfirm');
+        const cardIdInput = $('cardId');
+        const cardActionSelect = $('cardAction');
+
+        // 模态框 - 密码
+        const modalPwd = $('modalPwd');
+        const modalPwdCancel = $('modalPwdCancel');
+        const modalPwdConfirm = $('modalPwdConfirm');
+        const pwdType = $('pwdType');
+        const newPwd = $('newPwd');
+        const confirmPwd = $('confirmPwd');
+
+        // 模态框 - WiFi
+        const modalWifi = $('modalWifi');
+        const modalWifiCancel = $('modalWifiCancel');
+        const modalWifiConfirm = $('modalWifiConfirm');
+        const wifiSsid = $('wifiSsid');
+        const wifiPassword = $('wifiPassword');
+
+        // ============================================================
+        // Toast
+        // ============================================================
+        let toastTimer = null;
+
+        function showToast(text, duration = 1500) {
+            toast.textContent = text;
+            toast.classList.add('show');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => toast.classList.remove('show'), duration);
+        }
+
+        // ============================================================
+        // 发送指令（通用）
+        // ============================================================
+        function sendCommand(msg, label, callback) {
+            if (state.isLoading) return;
+            state.isLoading = true;
+            btnOpen.disabled = btnClose.disabled = btnManageCard.disabled = btnViewCards.disabled = btnChangePwd.disabled = btnWifiConfig.disabled = true;
+
+            const params = new URLSearchParams({
+                uid: CONFIG.UID,
+                topic: CONFIG.TOPIC,
+                msg: msg
+            });
+
+            fetch(CONFIG.API_SEND, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: params.toString()
+                })
+                .then(res => res.json())
+                .then(data => {
+                    showToast(`✅ ${label}指令已发送`);
+                    addLog(label + '成功', 'success');
+                    if (callback) callback(true);
+                })
+                .catch(err => {
+                    console.error('请求失败:', err);
+                    showToast('❌ 网络错误');
+                    addLog(label + '失败', 'fail');
+                    if (callback) callback(false);
+                })
+                .finally(() => {
+                    state.isLoading = false;
+                    btnOpen.disabled = btnClose.disabled = btnManageCard.disabled = btnViewCards.disabled = btnChangePwd.disabled = btnWifiConfig.disabled = false;
+                });
+        }
+
+        // ============================================================
+        // 开门 / 关门
+        // ============================================================
+        function openDoor() { sendCommand('on', '开门'); }
+
+        function closeDoor() { sendCommand('off', '关门'); }
+
+        // ============================================================
+        // 管理卡片
+        // ============================================================
+        function openCardModal() {
+            cardIdInput.value = '';
+            cardActionSelect.selectedIndex = 0;
+            modalCard.classList.add('active');
+            setTimeout(() => cardIdInput.focus(), 100);
+        }
+
+        function closeCardModal() { modalCard.classList.remove('active'); }
+
+        function handleCardManage() {
+            let id = cardIdInput.value.trim().toUpperCase();
+            if (!/^[0-9A-F]{1,8}$/.test(id)) {
+                showToast('⚠️ 请输入有效的十六进制ID（1~8位）', 1500);
+                return;
+            }
+            while (id.length < 8) id = '0' + id;
+            const action = cardActionSelect.value;
+            const msg = action + ':' + id;
+            const labelMap = {
+                'add_user': '添加用户卡',
+                'add_admin': '添加管理员卡',
+                'del_user': '删除用户卡',
+                'del_admin': '删除管理员卡'
+            };
+            sendCommand(msg, labelMap[action] || '卡片操作', (success) => {
+                if (success) closeCardModal();
+            });
+        }
+
+        // ============================================================
+        // 修改密码
+        // ============================================================
+        function openPwdModal() {
+            newPwd.value = '';
+            confirmPwd.value = '';
+            modalPwd.classList.add('active');
+            setTimeout(() => newPwd.focus(), 100);
+        }
+
+        function closePwdModal() { modalPwd.classList.remove('active'); }
+
+        function handlePwdChange() {
+            const pwd = newPwd.value.trim();
+            const confirm = confirmPwd.value.trim();
+            if (!/^\d{6}$/.test(pwd)) {
+                showToast('⚠️ 请输入6位数字密码', 1500);
+                return;
+            }
+            if (pwd !== confirm) {
+                showToast('❌ 两次密码不一致', 1500);
+                return;
+            }
+            const type = pwdType.value;
+            const msg = (type === 'user') ? 'change_user_pwd:' + pwd : 'change_admin_pwd:' + pwd;
+            sendCommand(msg, (type === 'user' ? '用户' : '管理员') + '密码修改', (success) => {
+                if (success) closePwdModal();
+            });
+        }
+
+        // ============================================================
+        // 查看卡片（只发送指令）
+        // ============================================================
+        function viewCards() {
+            if (state.isLoading) return;
+            // 提示用户查看OLED
+            showToast('📟 指令已发送，请查看设备OLED屏幕', 3000);
+            sendCommand('list_cards', '查看卡片', (success) => {
+                if (!success) {
+                    showToast('❌ 发送失败，请重试', 1500);
+                }
+            });
+        }
+
+        // ============================================================
+        // WiFi 配网
+        // ============================================================
+        function openWifiModal() {
+            wifiSsid.value = '';
+            wifiPassword.value = '';
+            modalWifi.classList.add('active');
+            setTimeout(() => wifiSsid.focus(), 100);
+        }
+
+        function closeWifiModal() { modalWifi.classList.remove('active'); }
+
+        function handleWifiConfig() {
+            const ssid = wifiSsid.value.trim();
+            const password = wifiPassword.value.trim();
+            if (!ssid) {
+                showToast('⚠️ 请输入 WiFi 名称', 1500);
+                return;
+            }
+            const msg = 'wifi:' + ssid + ',' + password;
+            sendCommand(msg, 'WiFi配网', (success) => {
+                if (success) {
+                    closeWifiModal();
+                    showToast('📶 WiFi 配置已发送，设备将重新连接', 3000);
+                }
+            });
+        }
+
+        // ============================================================
+        // 日志
+        // ============================================================
+        function addLog(text, status) {
+            const now = new Date();
+            const time = now.toLocaleTimeString();
+            state.logs.unshift({ time, text, status });
+            if (state.logs.length > 5) state.logs.pop();
+            renderLogs();
+        }
+
+        function renderLogs() {
+            if (state.logs.length === 0) {
+                logList.innerHTML = '<div class="empty-log">暂无记录</div>';
+                return;
+            }
+            let html = '';
+            state.logs.forEach(log => {
+                html += `
+                        <div class="log-item">
+                            <span class="log-time">${log.time}</span>
+                            <span class="log-status ${log.status}">${log.text}</span>
+                        </div>
+                    `;
+            });
+            logList.innerHTML = html;
+        }
+
+        function clearLogs() {
+            state.logs = [];
+            renderLogs();
+            showToast('🗑️ 日志已清空', 800);
+        }
+
+        // ============================================================
+        // 初始化
+        // ============================================================
+        const now = new Date();
+        state.logs = [{ time: now.toLocaleTimeString(), text: '系统就绪', status: 'sent' }];
+        renderLogs();
+
+        // 事件绑定
+        btnOpen.addEventListener('click', openDoor);
+        btnClose.addEventListener('click', closeDoor);
+        btnManageCard.addEventListener('click', openCardModal);
+        btnViewCards.addEventListener('click', viewCards);
+        btnChangePwd.addEventListener('click', openPwdModal);
+        btnWifiConfig.addEventListener('click', openWifiModal);
+
+        modalCardCancel.addEventListener('click', closeCardModal);
+        modalCardConfirm.addEventListener('click', handleCardManage);
+        modalPwdCancel.addEventListener('click', closePwdModal);
+        modalPwdConfirm.addEventListener('click', handlePwdChange);
+        modalWifiCancel.addEventListener('click', closeWifiModal);
+        modalWifiConfirm.addEventListener('click', handleWifiConfig);
+
+        $('clearLog').addEventListener('click', clearLogs);
+
+        // 点击模态背景关闭
+        modalCard.addEventListener('click', (e) => { if (e.target === modalCard) closeCardModal(); });
+        modalPwd.addEventListener('click', (e) => { if (e.target === modalPwd) closePwdModal(); });
+        modalWifi.addEventListener('click', (e) => { if (e.target === modalWifi) closeWifiModal(); });
+
+        // 键盘快捷键
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'o' || e.key === 'O') openDoor();
+            if (e.key === 'c' || e.key === 'C') closeDoor();
+            if (e.key === 'Escape') {
+                closeCardModal();
+                closePwdModal();
+                closeWifiModal();
+            }
+            if (e.key === 'Enter') {
+                if (modalCard.classList.contains('active')) handleCardManage();
+                if (modalPwd.classList.contains('active')) handlePwdChange();
+                if (modalWifi.classList.contains('active')) handleWifiConfig();
+            }
+        });
+
+        console.log('🚪 智能门禁已加载（卡片列表通过OLED显示）');
+        console.log('📌 快捷键: O-开门 C-关门 ESC-关闭弹窗');
+    </script>
+</body>
+</html>

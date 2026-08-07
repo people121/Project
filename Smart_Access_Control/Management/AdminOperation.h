@@ -43,4 +43,12 @@ void Regular_User_Menu(void);
 void Regular_User(void);
 
 void Regular_Admin(void);
+
+void Add_User_Card_Direct(uint32_t card_id);
+void Add_Admin_Card_Direct(uint32_t card_id);
+void Delete_User_Card_Direct(uint32_t card_id);
+void Delete_Admin_Card_Direct(uint32_t card_id);
+void Change_Password_Direct(uint8_t is_admin, uint32_t new_pwd);
+void Show_Card_List(void);
+
 #endif
