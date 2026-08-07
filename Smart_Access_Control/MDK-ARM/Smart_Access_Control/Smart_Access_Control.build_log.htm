@@ -28,7 +28,7 @@ Project File Date:  07/31/2026
 *** Using Compiler 'V5.06 update 5 (build 528)', folder: 'D:\Program Files\STM32\ARM\ARMCC\Bin'
 Build target 'Smart_Access_Control'
 compiling AdminOperation.c...
-../HardDrive/ESP.h(58): warning:  #1-D: last line of file ends without a newline
+../HardDrive/ESP.h(60): warning:  #1-D: last line of file ends without a newline
   #endif /* __ESP_H */
 ../SoftDrive/MySPI.h(64): warning:  #1-D: last line of file ends without a newline
   #endif /* __MYSPI_H */
@@ -52,17 +52,21 @@ compiling AdminOperation.c...
                       sprintf(display_buf, "%08lX A", show_id);
 ..\Management\AdminOperation.c(940): warning:  #177-D: variable "del_card"  was declared but never referenced
                   uint32_t del_card = card_list[current_selection].card_id;
-..\Management\AdminOperation.c(972): warning:  #1-D: last line of file ends without a newline
-  }
 ..\Management\AdminOperation.c(830): warning:  #177-D: variable "total_pages"  was declared but never referenced
       uint8_t total_pages = (card_count - 1) / 3 + 1;
+..\Management\AdminOperation.c(1085): warning:  #223-D: function "sprintf" declared implicitly
+              sprintf(buf, "%c: %08lX", (cards[i].type == 0) ? 'U' : 'A', cards[i].id);
+..\Management\AdminOperation.c(1093): warning:  #223-D: function "sprintf" declared implicitly
+      sprintf(buf, "Pg %d/%d", current_page + 1, total_pages);
+..\Management\AdminOperation.c(1133): warning:  #1-D: last line of file ends without a newline
+  }
 ..\Management\AdminOperation.c(22): warning:  #177-D: variable "current_menu"  was declared but never referenced
   static uint8_t current_menu = 0;             // 0:开�?, 1:修改密码, 2:退�?
-..\Management\AdminOperation.c: 15 warnings, 0 errors
+..\Management\AdminOperation.c: 17 warnings, 0 errors
 linking...
-Program Size: Code=24836 RO-data=2592 RW-data=236 ZI-data=13452  
+Program Size: Code=29536 RO-data=3144 RW-data=224 ZI-data=13456  
 FromELF: creating hex file...
-"Smart_Access_Control\Smart_Access_Control.axf" - 0 Error(s), 15 Warning(s).
+"Smart_Access_Control\Smart_Access_Control.axf" - 0 Error(s), 17 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -86,7 +90,7 @@ Package Vendor: Keil
 
    * Component: ARM::CMSIS:CORE@6.1.1
       Include file:  CMSIS/Core/Include/tz_context.h
-Build Time Elapsed:  00:00:02
+Build Time Elapsed:  00:00:01
 </pre>
 </body>
 </html>

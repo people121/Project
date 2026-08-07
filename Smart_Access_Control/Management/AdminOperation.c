@@ -970,3 +970,164 @@ void Dele_ID_Card(void)
         osDelay(20);
     }
 }
+
+// ===== 新增卡片管理（直接写Flash） =====
+void Add_User_Card_Direct(uint32_t card_id) {
+    if (Flash_Read(USER_FLASH_ADDR_RFID) == card_id ||
+        Flash_Read(USER_FLASH_ADDR_RFID_New1) == card_id ||
+        Flash_Read(USER_FLASH_ADDR_RFID_New2) == card_id ||
+        Flash_Read(USER_FLASH_ADDR_ADMIN_RFID) == card_id ||
+        Flash_Read(USER_FLASH_ADDR_ADMIN_RFID_New1) == card_id) {
+        return; // 已存在
+    }
+    if (Flash_Read(USER_FLASH_ADDR_RFID_New1) == 0xFFFFFFFF) {
+        Flash_Erase(USER_FLASH_ADDR_RFID_New1);
+        Flash_Write(USER_FLASH_ADDR_RFID_New1, card_id);
+    } else if (Flash_Read(USER_FLASH_ADDR_RFID_New2) == 0xFFFFFFFF) {
+        Flash_Erase(USER_FLASH_ADDR_RFID_New2);
+        Flash_Write(USER_FLASH_ADDR_RFID_New2, card_id);
+    }
+}
+
+void Add_Admin_Card_Direct(uint32_t card_id) {
+    if (Flash_Read(USER_FLASH_ADDR_RFID) == card_id ||
+        Flash_Read(USER_FLASH_ADDR_ADMIN_RFID) == card_id ||
+        Flash_Read(USER_FLASH_ADDR_RFID_New1) == card_id ||
+        Flash_Read(USER_FLASH_ADDR_RFID_New2) == card_id ||
+        Flash_Read(USER_FLASH_ADDR_ADMIN_RFID_New1) == card_id) {
+        return;
+    }
+    if (Flash_Read(USER_FLASH_ADDR_ADMIN_RFID_New1) == 0xFFFFFFFF) {
+        Flash_Erase(USER_FLASH_ADDR_ADMIN_RFID_New1);
+        Flash_Write(USER_FLASH_ADDR_ADMIN_RFID_New1, card_id);
+    }
+}
+
+void Delete_User_Card_Direct(uint32_t card_id) 
+{
+    if (Flash_Read(USER_FLASH_ADDR_RFID) == card_id) {
+        Flash_Erase(USER_FLASH_ADDR_RFID);
+    } else if (Flash_Read(USER_FLASH_ADDR_RFID_New1) == card_id) {
+        Flash_Erase(USER_FLASH_ADDR_RFID_New1);
+    } else if (Flash_Read(USER_FLASH_ADDR_RFID_New2) == card_id) {
+        Flash_Erase(USER_FLASH_ADDR_RFID_New2);
+	}
+}
+
+void Delete_Admin_Card_Direct(uint32_t card_id) 
+{
+    if (Flash_Read(USER_FLASH_ADDR_ADMIN_RFID) == card_id) {
+        Flash_Erase(USER_FLASH_ADDR_ADMIN_RFID);
+    } else if (Flash_Read(USER_FLASH_ADDR_ADMIN_RFID_New1) == card_id) {
+        Flash_Erase(USER_FLASH_ADDR_ADMIN_RFID_New1);
+	}
+}
+
+// 修改密码
+void Change_Password_Direct(uint8_t is_admin, uint32_t new_pwd) {
+    uint32_t addr = is_admin ? USER_FLASH_ADDR_ADMIN_PWD : USER_FLASH_ADDR_PWD;
+    osDelay(1);
+    taskENTER_CRITICAL();
+    Flash_Erase(addr);
+    Flash_Write(addr, new_pwd);
+    taskEXIT_CRITICAL();
+    osDelay(1);
+}
+
+void Show_Card_List(void)
+{
+    typedef struct {
+        uint32_t id;
+        uint8_t type;   // 0:用户卡, 1:管理员卡
+    } CardItem;
+    CardItem cards[10];
+    uint8_t count = 0;
+
+    uint32_t addr_list[] = {
+        USER_FLASH_ADDR_RFID,
+        USER_FLASH_ADDR_RFID_New1,
+        USER_FLASH_ADDR_RFID_New2,
+        USER_FLASH_ADDR_ADMIN_RFID,
+        USER_FLASH_ADDR_ADMIN_RFID_New1
+    };
+    uint8_t type_list[] = {0, 0, 0, 1, 1};
+
+    for (int i = 0; i < 5; i++) {
+        uint32_t id = Flash_Read(addr_list[i]);
+        if (id != 0xFFFFFFFF) {
+            cards[count].id = id;
+            cards[count].type = type_list[i];
+            count++;
+        }
+    }
+
+    if (count == 0) {
+        OLED_Clear();
+        OLED_PrintString(2, 3, "No Card Found");
+        HAL_Delay(1500);
+        OLED_Clear();
+        return;
+    }
+
+    uint8_t total_pages = (count + 3) / 4;
+    uint8_t current_page = 0;
+    char buf[20];
+
+    // 首次清屏并绘制标题（只执行一次）
+    OLED_Clear();
+    OLED_PrintString(2, 0, "Card List");
+    // 绘制第一页
+    uint8_t start = 0;
+    uint8_t end = (count > 4) ? 4 : count;
+    for (uint8_t i = 0; i < 4; i++) {
+        uint8_t line = 2 + i * 2;
+        if (i < end - start) {
+            sprintf(buf, "%c: %08lX", (cards[i].type == 0) ? 'U' : 'A', cards[i].id);
+            OLED_PrintString(2, line, buf);
+        } else {
+            // 清空多余行（防止残留）
+            OLED_ClearLine(0, line);
+        }
+    }
+    // 显示页码
+    sprintf(buf, "Pg %d/%d", current_page + 1, total_pages);
+    OLED_PrintString(10, 0, buf);
+
+    while (1) {
+        char key = Button_GetKey();
+
+        if (key == KEY_UP || key == KEY_DOWN) {
+            uint8_t new_page = current_page;
+            if (key == KEY_UP && current_page > 0) new_page--;
+            else if (key == KEY_DOWN && current_page < total_pages - 1) new_page++;
+            else continue;
+
+            // 更新到新页面（只刷新变化的部分）
+            current_page = new_page;
+            start = current_page * 4;
+            end = start + 4;
+            if (end > count) end = count;
+
+            // 更新四行内容
+            for (uint8_t i = 0; i < 4; i++) {
+                uint8_t line = 2 + i * 2;
+                uint8_t idx = start + i;
+                if (idx < end) {
+                    sprintf(buf, "%c: %08lX", (cards[idx].type == 0) ? 'U' : 'A', cards[idx].id);
+                    OLED_PrintString(2, line, buf);
+                } else {
+                    // 清空多余行（本页没有卡片的位置）
+                    OLED_ClearLine(0, line);
+                }
+            }
+            // 更新页码
+            sprintf(buf, "Pg %d/%d", current_page + 1, total_pages);
+            OLED_PrintString(10, 0, buf);
+        }
+        else if (key == KEY_ESC) {
+            break;
+        }
+        osDelay(20);
+    }
+    OLED_Clear();   // 退出时清屏
+}

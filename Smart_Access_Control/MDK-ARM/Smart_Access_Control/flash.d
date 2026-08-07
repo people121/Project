@@ -33,3 +33,4 @@ smart_access_control\flash.o: ../Core/Inc/gpio.h
 smart_access_control\flash.o: ../Core/Inc/main.h
 smart_access_control\flash.o: ..\Data\FLASH.h
 smart_access_control\flash.o: ../HardDrive/driver_oled.h
+smart_access_control\flash.o: D:\Program Files\STM32\ARM\ARMCC\Bin\..\include\string.h

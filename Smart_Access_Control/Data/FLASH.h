@@ -1,6 +1,10 @@
 #ifndef __FLASH_H
 #define __FLASH_H
 
+#include "stm32f1xx_hal.h"
+void Flash_WriteString(uint32_t Address, const char *str, uint8_t maxLen);
+void Flash_ReadString(uint32_t Address, char *buf, uint8_t maxLen);
+
 /*
  *  函数名：Flash_Erase
  *  功能描述：case 1: 擦除指定地址所在的页（如果地址在该页范围内）

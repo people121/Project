@@ -35,3 +35,4 @@ smart_access_control\esp.o: ../Core/Inc/usart.h
 smart_access_control\esp.o: ../Core/Inc/main.h
 smart_access_control\esp.o: ..\HardDrive\DoorOpenPro.h
 smart_access_control\esp.o: ../Management/AdminOperation.h
+smart_access_control\esp.o: ../Data/FLASH.h

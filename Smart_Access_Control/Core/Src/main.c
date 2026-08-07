@@ -54,8 +54,9 @@
 #define USER_FLASH_ADDR_RFID_New2        0x08008800          // 扇区34起始地址（16KB位置）用于存储新增加的卡片ID2           (新增用户ID2)
 #define USER_FLASH_ADDR_ADMIN_RFID_New1  0x08008C00          // 扇区35起始地址（12KB位置）用于存储新增加的管理员卡片ID1      (新增管理员ID1)
 #define USER_FLASH_ADDR_ADMIN_PWD        0x08009000          // 扇区36起始地址（8KB位置）用于存储管理员密码                 (管理员密码)
-
-#define USER_FLASH_ADDR_INIT_FLAG        0x08009400          // 扇区37起始地址（4KB位置）用于存储初始化
+#define USER_FLASH_ADDR_INIT_FLAG        0x08009400          // 扇区37起始地址（4KB位置）用于存储初始化标志
+#define USER_FLASH_ADDR_WIFI_ID          0x08009800          // 扇区38起始地址（0KB位置）用于存储WiFi信息                 （名称）
+#define USER_FLASH_ADDR_WIFI_PWD         0x08009C00          // 扇区39起始地址（0KB位置）用于存储WiFi信息                 （密码）
 
 
 #define USER_FLASH_ADDR_USER_CARD_COUNT  0x08007FF8          // 用户卡数量地址（扇区31末尾）
@@ -76,10 +77,10 @@ volatile uint8_t wdg_feed_flag = 0;   // 喂狗标志
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
-void SystemClock_Config(void);
-void MX_FREERTOS_Init(void);
+void SystemClock_Config(void);      // 系统时钟配置函数
+void MX_FREERTOS_Init(void);        // FreeRTOS初始化函数
 /* USER CODE BEGIN PFP */
-void MX_TIM2_Init(void);
+void MX_TIM2_Init(void);            // 定时器2初始化函数（用于看门狗喂养）
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -130,12 +131,12 @@ int main(void)
 	HAL_Delay(500);
 
 	// 初始化ESP-01S（等待连接完成）
-//	if(ESP_Init()) {
-//		OLED_PrintString(2, 2, "ESP OK!");
-//	} else {
-//		OLED_PrintString(2, 2, "ESP Fail!");
-//	}
-//	HAL_Delay(1000);
+	if(ESP_Init()) {
+		OLED_PrintString(2, 2, "ESP OK!");
+	} else {
+		OLED_PrintString(2, 2, "ESP Fail!");
+	}
+	HAL_Delay(1000);
   
 
   /* 启动PWM（舵机） */
@@ -146,21 +147,30 @@ int main(void)
   uint32_t user_ID = 0xBAD3411D;                                      // 用户卡片ID
   uint32_t Administrator_ID = 0xC7F57B33;                             // 管理员卡片ID
   uint32_t user_pwd = 123456;                                         // 用户密码
-  uint32_t admin_pwd =111111;                                        // 管理员密码
+  uint32_t admin_pwd =111111;                                         // 管理员密码
+  char ssid[]  = "A";
+  char pswd[]  = "cr7204612";
+
   uint32_t init_flag = Flash_Read(USER_FLASH_ADDR_INIT_FLAG);         // 读取初始化标志
   
   if(init_flag != 0x5A5A5A5A) {                                       // 如果未初始化，则写入默认数据
       Flash_Erase(USER_FLASH_ADDR_PWD);                               // 擦除用户密码存储区域
-      Flash_Erase(USER_FLASH_ADDR_RFID);      
-      Flash_Erase(USER_FLASH_ADDR_ADMIN_RFID);
-      Flash_Erase(USER_FLASH_ADDR_ADMIN_PWD);
-      Flash_Erase(USER_FLASH_ADDR_INIT_FLAG);
-      
+      Flash_Erase(USER_FLASH_ADDR_RFID);                              // 擦除用户卡片ID存储区域
+      Flash_Erase(USER_FLASH_ADDR_ADMIN_RFID);                        // 擦除管理员卡片ID存储区域
+      Flash_Erase(USER_FLASH_ADDR_ADMIN_PWD);                         // 擦除管理员密码存储区域
+      Flash_Erase(USER_FLASH_ADDR_INIT_FLAG);                         // 擦除初始化标志存储区域
+      Flash_Erase(USER_FLASH_ADDR_USER_CARD_COUNT);                   // 擦除用户卡数量存储区域
+      Flash_Erase(USER_FLASH_ADDR_ADMIN_CARD_COUNT);                  // 擦除管理员卡数量
+      Flash_Erase(USER_FLASH_ADDR_WIFI_ID);                           // 擦除WiFi名称存储区域
+      Flash_Erase(USER_FLASH_ADDR_WIFI_PWD);                          // 擦除WiFi密码存储区域
+
       Flash_Write(USER_FLASH_ADDR_PWD, user_pwd);                     // 写入用户密码
       Flash_Write(USER_FLASH_ADDR_RFID, user_ID);                     // 写入用户卡片ID
       Flash_Write(USER_FLASH_ADDR_ADMIN_RFID, Administrator_ID);      // 写入管理员卡片ID
       Flash_Write(USER_FLASH_ADDR_ADMIN_PWD, admin_pwd);              // 写入管理员密码
       Flash_Write(USER_FLASH_ADDR_INIT_FLAG, 0x5A5A5A5A);             // 写入初始化标志
+	  Flash_WriteString(USER_FLASH_ADDR_WIFI_ID, ssid, 32); 
+	  Flash_WriteString(USER_FLASH_ADDR_WIFI_PWD, pswd, 32);          // 密码（偏移 32 字节）
       
       Flash_Write(USER_FLASH_ADDR_USER_CARD_COUNT, 1);                // 写入用户卡数量为1      
       Flash_Write(USER_FLASH_ADDR_ADMIN_CARD_COUNT, 1);               // 写入管理员卡数量为1
@@ -168,8 +178,20 @@ int main(void)
   /* USER CODE END 2 */
 
   /* Call init function for freertos objects (in cmsis_os2.c) */
-  wdg_feed_flag = 1;
-  MX_TIM2_Init();
+//		Flash_Erase(USER_FLASH_ADDR_WIFI_ID);                          
+//      Flash_Erase(USER_FLASH_ADDR_WIFI_PWD);
+	Flash_WriteString(USER_FLASH_ADDR_WIFI_ID, ssid,32); 
+	Flash_WriteString(USER_FLASH_ADDR_WIFI_PWD, pswd,32);
+	Flash_ReadString(USER_FLASH_ADDR_WIFI_ID, ssid,32);
+	Flash_ReadString(USER_FLASH_ADDR_WIFI_PWD, pswd,32);
+	char dbg[8];	
+	sprintf(dbg, "%02X", (uint8_t)ssid[0]);
+//	OLED_PrintString(0, 2, dbg);  // 在第一行显示
+	OLED_PrintString(0, 4, ssid);
+	OLED_PrintString(0, 6, pswd);
+	HAL_Delay(2000);
+  wdg_feed_flag = 1;          // 初始化喂狗标志
+  MX_TIM2_Init();             // 初始化定时器2（用于看门狗喂养）
   MX_FREERTOS_Init();
 
   /* Start scheduler */

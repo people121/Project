@@ -167,7 +167,6 @@ void StartDefaultTask(void const * argument)
 void StartUserTask(void const * argument)
 {
   osDelay(500); 
-  OLED_PrintString(0, 2, "ESP Task"); // 显示ESP初始化信息
   for(;;)
   {
     ESP_Process();                    // 处理ESP通信任务
@@ -196,7 +195,6 @@ void StartRC522Task(void const * argument)
     {
         if (RC522_ReadCardID(user_uid) == MI_OK) {
             fail_count = 0;
-            OLED_PrintString(0, 6, "             ");
             Uid_Read();           // 单次处理
             RC522_Halt();
             // 处理后复位，确保下次读卡状态干净
@@ -216,8 +214,6 @@ void StartRC522Task(void const * argument)
 void StartRegularTask(void const * argument)
 {
   OLED_Clear();
-  OLED_PrintString(0, 0, "Smart Access");
-  OLED_PrintString(0, 2, "Swipe Card...");
   osDelay(500);
   
   for(;;)
