@@ -1,0 +1,19 @@
+*** Using Compiler 'V5.06 update 5 (build 528)', folder: 'D:\Program Files\STM32\ARM\ARMCC\Bin'
+Build target 'Smart_Access_Control'
+compiling main.c...
+../HardDrive/ESP.h(60): warning:  #1-D: last line of file ends without a newline
+  #endif /* __ESP_H */
+../HardDrive/DoorOpenPro.h(89): warning:  #1-D: last line of file ends without a newline
+  #endif
+../SoftDrive/MySPI.h(64): warning:  #1-D: last line of file ends without a newline
+  #endif /* __MYSPI_H */
+../SoftDrive/RC522_Ins.h(107): warning:  #1-D: last line of file ends without a newline
+  #endif /* __RC522_INS_H */
+../SoftDrive/RC522.h(96): warning:  #1-D: last line of file ends without a newline
+  #endif /* __RC522_H */
+../Core/Src/main.c: 5 warnings, 0 errors
+linking...
+Program Size: Code=28980 RO-data=3124 RW-data=224 ZI-data=13456  
+FromELF: creating hex file...
+"Smart_Access_Control\Smart_Access_Control.axf" - 0 Error(s), 5 Warning(s).
+Build Time Elapsed:  00:00:01
