@@ -58,7 +58,6 @@
 #define USER_FLASH_ADDR_WIFI_ID          0x08009800          // 扇区38起始地址（0KB位置）用于存储WiFi信息                 （名称）
 #define USER_FLASH_ADDR_WIFI_PWD         0x08009C00          // 扇区39起始地址（0KB位置）用于存储WiFi信息                 （密码）
 
-
 #define USER_FLASH_ADDR_USER_CARD_COUNT  0x08007FF8          // 用户卡数量地址（扇区31末尾）
 #define USER_FLASH_ADDR_ADMIN_CARD_COUNT 0x080083F8          // 管理员卡数量地址（扇区32末尾）
 
@@ -176,20 +175,6 @@ int main(void)
       Flash_Write(USER_FLASH_ADDR_ADMIN_CARD_COUNT, 1);               // 写入管理员卡数量为1
   }
   /* USER CODE END 2 */
-
-  /* Call init function for freertos objects (in cmsis_os2.c) */
-//		Flash_Erase(USER_FLASH_ADDR_WIFI_ID);                          
-//      Flash_Erase(USER_FLASH_ADDR_WIFI_PWD);
-	Flash_WriteString(USER_FLASH_ADDR_WIFI_ID, ssid,32); 
-	Flash_WriteString(USER_FLASH_ADDR_WIFI_PWD, pswd,32);
-	Flash_ReadString(USER_FLASH_ADDR_WIFI_ID, ssid,32);
-	Flash_ReadString(USER_FLASH_ADDR_WIFI_PWD, pswd,32);
-	char dbg[8];	
-	sprintf(dbg, "%02X", (uint8_t)ssid[0]);
-//	OLED_PrintString(0, 2, dbg);  // 在第一行显示
-	OLED_PrintString(0, 4, ssid);
-	OLED_PrintString(0, 6, pswd);
-	HAL_Delay(2000);
   wdg_feed_flag = 1;          // 初始化喂狗标志
   MX_TIM2_Init();             // 初始化定时器2（用于看门狗喂养）
   MX_FREERTOS_Init();

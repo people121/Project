@@ -42,7 +42,7 @@
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
 extern unsigned char user_uid[4];                   // 存储读到的卡片ID
-extern volatile uint8_t wdg_feed_flag;
+extern volatile uint8_t wdg_feed_flag;              // 喂狗标志
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -148,6 +148,12 @@ void MX_FREERTOS_Init(void) {
   * @retval None
   */
 /* USER CODE END Header_StartDefaultTask */
+/*
+ *  函数名：SStartDefaultTask
+ *  功能描述： 默认任务，主要用于喂看门狗，确保系统在运行中不会被复位。
+ *  参数 ：argument - 任务参数（未使用）
+ *  返回值：无
+ */
 void StartDefaultTask(void const * argument)
 {
   /* USER CODE BEGIN StartDefaultTask */
@@ -210,7 +216,12 @@ void StartRC522Task(void const * argument)
         osDelay(50);
     }
 }
-
+/*
+ *  函数名：StartRegularTask
+ *  功能描述： 处理用户界面任务，主要用于刷新OLED显示屏，显示当前系统状态和信息。
+ *  参数 ：argument - 任务参数（未使用）
+ *  返回值：无
+ */
 void StartRegularTask(void const * argument)
 {
   OLED_Clear();
